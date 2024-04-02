@@ -1,1 +1,107 @@
-<p>dart-preset works!</p>
+<form class="mt-3">
+  <div class="bg-white shadow-md rounded-md p-4">
+    <h3 class="text-lg font-semibold">Voreinstellungen</h3>
+
+    <app-error-message
+      *ngIf="errorMessage"
+      [errorMessage]="errorMessage"
+    ></app-error-message>
+    <input
+      type="text"
+      class="form-input mt-4 border rounded-md px-4 py-2 mr-2"
+      id="newPlayerName"
+      placeholder="Spieler 1"
+      [(ngModel)]="newPlayerName"
+      [ngModelOptions]="{ standalone: true }"
+    />
+    <button
+      type="button"
+      class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-4 mr-2"
+      (click)="addPlayer()"
+    >
+      Spieler Hinzufügen
+    </button>
+    <button
+      type="submit"
+      class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4"
+      (click)="startGame()"
+    >
+      Spiel Starten
+    </button>
+
+    <p class="mt-4">Teilnehmer:</p>
+    <ul class="mt-3">
+      <li *ngFor="let player of players" class="flex items-center">
+        {{ player }}
+        <span
+          class="delete-player ml-2 cursor-pointer"
+          (click)="removePlayer(players.indexOf(player))"
+        >
+          <span class="text-red-500">X</span>
+        </span>
+      </li>
+    </ul>
+
+    <div class="grid grid-cols-2 mt-4">
+      <div class="col-start-1">
+        <h5 class="text-lg font-semibold underline">Modus</h5>
+        <div class="flex items-center mt-2">
+          <input
+            class="form-radio mt-1"
+            type="radio"
+            name="mode"
+            id="mode301"
+            value="301"
+            [checked]="mode === '301'"
+            (change)="updateMode('301')"
+          />
+          <label class="ml-2 cursor-pointer" for="mode301">301</label>
+        </div>
+        <div class="flex items-center mt-2">
+          <input
+            class="form-radio mt-1"
+            type="radio"
+            name="mode"
+            id="mode501"
+            value="501"
+            [checked]="mode === '501'"
+            (change)="updateMode('501')"
+          />
+          <label class="ml-2 cursor-pointer" for="mode501">501</label>
+        </div>
+      </div>
+      <div class="col-start-2">
+        <h5 class="text-lg font-semibold underline">Schwierigkeit</h5>
+        <div class="flex items-center mt-2">
+          <input
+            class="form-radio mt-1"
+            type="radio"
+            name="difficulty"
+            id="singleOut"
+            value="Single Out"
+            [checked]="difficulty === 'Single Out'"
+            (change)="updateDifficulty('Single Out')"
+          />
+          <label class="ml-2 cursor-pointer" for="singleOut">Single Out</label>
+        </div>
+        <div class="flex items-center mt-2">
+          <input
+            class="form-radio mt-1 cursor-not-allowed"
+            type="radio"
+            name="difficulty"
+            id="doubleOut"
+            value="Double Out"
+            [checked]="difficulty === 'Double Out'"
+            (change)="updateDifficulty('Double Out')"
+            disabled
+          />
+          <label class="ml-2 cursor-not-allowed" for="doubleOut"
+            >Double Out (In Arbeit..)</label
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<app-dart-preset-info class="mt-4"></app-dart-preset-info>

@@ -1,0 +1,58 @@
+<div class="grid grid-cols-2 gap-4 mt-3 ml-3">
+  <div>
+    <!-- player-card -->
+    <div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 mt-28">
+      <div class="grid grid-cols-12">
+        <div class="col-start-1 col-span-3 text-center">
+          {{ gameData[0].player }}
+        </div>
+        <div class="col-start-6 text-center">{{ gameData[0].score }}</div>
+        <div class="col-start-12 text-center bg-yellow-500">
+          {{ gameData[0].round }}
+        </div>
+      </div>
+      <div class="grid grid-cols-12 mt-10">
+        <div
+          class="col-start-1 col-span-3 h-16 flex items-center justify-center bg-gray-500"
+        >
+          {{ gameData[0].firstDart }}
+        </div>
+        <div
+          class="col-start-5 col-span-3 text-center h-16 flex items-center justify-center bg-gray-500"
+        >
+          {{ gameData[0].secondDart }}
+        </div>
+        <div
+          class="col-start-9 col-span-3 text-center h-16 flex items-center justify-center bg-gray-500"
+        >
+          {{ gameData[0].thirdDart }}
+        </div>
+      </div>
+    </div>
+
+    <!-- player-card-end -->
+    <!-- game control buttons -->
+    <div
+      class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex justify-center mt-2"
+    >
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+        (click)="nextPlayer()"
+      >
+        Nächster Spieler
+      </button>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Letzten Dart löschen
+      </button>
+    </div>
+
+    <!-- game control buttons end -->
+  </div>
+  <div>
+    <app-dart-board
+      (thrownNumber)="onThrownNumberChange($event)"
+    ></app-dart-board>
+  </div>
+</div>

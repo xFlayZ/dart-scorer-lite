@@ -1,1 +1,10 @@
-<p>dart works!</p>
+<div *ngIf="!gameStartedData" class="preset">
+  <app-dart-preset (gameStarted)="receiveGameStarted($event)"></app-dart-preset>
+</div>
+<div *ngIf="gameStartedData" class="dart-game">
+  <app-dart-game
+    [players]="gameStartedData.players"
+    [mode]="gameStartedData.mode"
+    [difficulty]="gameStartedData.difficulty"
+  ></app-dart-game>
+</div>

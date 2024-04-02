@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DartGameDataComponent } from './dart-game-data.component';
+import { DartGameComponent } from './dart-game.component';
 
-describe('DartGameDataComponent', () => {
-  let component: DartGameDataComponent;
-  let fixture: ComponentFixture<DartGameDataComponent>;
+describe('DartGameComponent', () => {
+  let component: DartGameComponent;
+  let fixture: ComponentFixture<DartGameComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DartGameDataComponent]
+      declarations: [DartGameComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DartGameDataComponent);
+    fixture = TestBed.createComponent(DartGameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

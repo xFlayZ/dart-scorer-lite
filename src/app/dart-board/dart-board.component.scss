@@ -1,0 +1,141 @@
+$circle-diameter: 36rem;
+$number-size: 1.5rem; 
+$inner-circle-diameter: 85%;
+$triangle-size: 17.8rem; 
+$bullseye-circle-diameter: 15%;
+$inner-bullseye-circle-diameter: 50%;
+
+.circle {
+  border: 2px solid white;
+  background-color: black;
+  border-radius: 50%;
+  width: $circle-diameter;
+  height: $circle-diameter;
+  position: relative;
+}
+
+.number {
+  position: absolute;
+  font-size: $number-size;
+  width: $number-size;
+  height: $number-size;
+  text-align: center;
+  line-height: $number-size;
+  border-radius: 50%;
+  color: white;
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+.inner-circle {
+  position: absolute;
+  width: $inner-circle-diameter;
+  height: $inner-circle-diameter;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid white;
+  background-color: #7f8c8d;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid white;
+}
+
+.triangle-container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+.triangle {
+	position: absolute;
+	width: 4.5rem;
+	height: 15rem;
+	border-radius: 0.5rem;
+	clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+	background-color: white;
+}
+
+.triangle-black {
+	background-color: black;
+}
+
+
+.tripple {
+	position: absolute;
+	width: 3.5rem;
+	height: 1.5rem;
+  top: 50%;
+  left: 15%;
+	background-color: #c0392b;
+}
+
+.double {
+	position: absolute;
+	width: 5rem;
+	height: 2rem;
+  top: 90%;
+  left: 0%;
+	background-color: #c0392b;
+}
+
+.green {
+	background-color: #16a085;
+  ;
+}
+
+.bullseye {
+  position: absolute;
+  width: $bullseye-circle-diameter;
+  height: $bullseye-circle-diameter;
+  border-radius: 50%;
+  background-color: #16a085;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid white;
+}
+
+.inner-bullseye {
+  position: absolute;
+  width: $inner-bullseye-circle-diameter;
+  height: $inner-bullseye-circle-diameter;
+  border-radius: 50%;
+  background-color: #c0392b;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid white;
+}
+
+.red-text {
+  color: red;
+}
+
+.green-text {
+  color: green;
+}
+
+.highlight {
+  background-color: #2980b9;
+}
+
+
+@for $i from 1 through 20 {
+  $angle: (360 / 20 * ($i - 1)) * 1deg;
+  $top-offset: sin($angle) * ($circle-diameter / 2.175);
+  $left-offset: cos($angle) * ($circle-diameter / 2.175); 
+  .number:nth-child(#{$i}) {
+    top: calc(50% - #{$top-offset} - #{$number-size / 2}); 
+    left: calc(50% + #{$left-offset} - #{$number-size / 2});
+  }
+  $angle-triangle: (287.5 - (18 * $i)) * 1deg;
+  $angle-radius: $triangle-size / 2 - $number-size;
+  $top-triangle-offset: sin($angle-triangle) * $angle-radius; 
+  $left-triangle-offset: cos($angle-triangle) * $angle-radius; 
+  .triangle:nth-child(#{$i}) {
+    top: calc(25.15% + #{$top-triangle-offset});
+    left: calc(42.5% + #{$left-triangle-offset});
+    transform: rotate($angle-triangle - 90deg); 
+  }
+}
