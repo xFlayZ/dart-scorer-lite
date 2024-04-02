@@ -10,6 +10,8 @@ import { DartPresetInfoComponent } from './dart-preset-info/dart-preset-info.com
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { FormsModule } from '@angular/forms';
 import { DartGameComponent } from './dart-game/dart-game.component';
+import { DartWinnerModalComponent } from './dart-winner-modal/dart-winner-modal.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { DartGameComponent } from './dart-game/dart-game.component';
     DartPresetComponent,
     DartPresetInfoComponent,
     ErrorMessageComponent,
-    DartGameComponent
+    DartGameComponent,
+    DartWinnerModalComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

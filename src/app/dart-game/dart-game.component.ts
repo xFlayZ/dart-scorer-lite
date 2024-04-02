@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { CheckoutService } from '../services/checkout.service';
 
 @Component({
   selector: 'app-dart-game',
@@ -9,9 +10,17 @@ export class DartGameComponent implements OnInit {
 
   public gameData: { player: string, score: number, wins: number, roundAverage: number, totalAverage: number, highestRound: number, firstDart: string, secondDart: string, thirdDart: string, roundTotal: number, round: number, game: number }[] = [];
 
+  public playerCount = 0;
+  public currentPlayerCount = 0;
+  public winnerModalOpen: boolean = false;
+  public possibleCheckout: string = '-';
+  public inRound = true;
+
   @Input() players: string[] = [];
   @Input() mode: string = '';
   @Input() difficulty: string = '';
+
+  constructor(private checkoutService: CheckoutService) { }
 
   ngOnInit(): void {
     this.setupGame(this.players, this.mode, this.difficulty)
@@ -20,15 +29,27 @@ export class DartGameComponent implements OnInit {
   // Ändere thrownNumber und berechne den Score + setze first-, second- und thirdDart
 
   onThrownNumberChange(thrownNumber: string) {
-    if (this.gameData[0].firstDart == '-') {
-      this.calcScore(thrownNumber)
-      this.gameData[0].firstDart = thrownNumber
-    } else if (this.gameData[0].secondDart == '-') {
-      this.calcScore(thrownNumber)
-      this.gameData[0].secondDart = thrownNumber
-    } else if (this.gameData[0].thirdDart == '-') {
-      this.calcScore(thrownNumber)
-      this.gameData[0].thirdDart = thrownNumber
+
+      if (this.inRound) {
+        if (this.gameData[this.currentPlayerCount].firstDart == '-') {
+          this.calcScore(thrownNumber)
+          this.gameData[this.currentPlayerCount].firstDart = thrownNumber
+          this.calculateCheckoutCurrentPlayer();
+        } else if (this.gameData[this.currentPlayerCount].secondDart == '-') {
+          this.calcScore(thrownNumber)
+          this.gameData[this.currentPlayerCount].secondDart = thrownNumber
+          this.calculateCheckoutCurrentPlayer();
+        } else if (this.gameData[this.currentPlayerCount].thirdDart == '-') {
+          this.calcScore(thrownNumber)
+          this.gameData[this.currentPlayerCount].thirdDart = thrownNumber
+          this.possibleCheckout = "-"
+          this.inRound = false;
+          
+        }
+      }
+
+    if (this.gameData[this.currentPlayerCount].score <= 0) {
+      this.inRound = false;
     }
   }
 
@@ -53,6 +74,8 @@ export class DartGameComponent implements OnInit {
         round: 1,
         game: 0
     }));
+
+    this.playerCount = players.length - 1;
 }
 
 shuffleArray(array: any[]) {
@@ -63,13 +86,65 @@ shuffleArray(array: any[]) {
   return array;
 }
 
+// Neue Runde
+
+nextRound() {
+  const modeNum = parseInt(this.mode, 10);
+  // Überprüfen, ob das gameData-Array nicht leer ist
+  if (this.gameData && this.gameData.length > 0) {
+    // Den ersten Spieler als letzten Spieler in der Reihenfolge verschieben
+    const lastPlayer = this.gameData.shift();
+    if (lastPlayer) {
+      this.gameData.push(lastPlayer);
+    }
+
+    // Aktualisieren der Rundennummer für alle Spieler
+    this.gameData.forEach(player => {
+      if (player) {
+        player.round++;
+        player.firstDart = '-'
+        player.secondDart = '-'
+        player.thirdDart = '-'
+        player.score = modeNum
+      }
+    });
+
+    // Aktualisieren der Spielernummer für den ersten Spieler
+    if (this.gameData[0]) {
+      this.gameData[0].game++;
+    }
+
+    // Aktualisieren der Spieleranzahl
+    this.playerCount = this.gameData.length - 1;
+  }
+}
+
+
+
 // Nächster Spieler
 
 nextPlayer() {
-  this.gameData[0].firstDart = '-'
-  this.gameData[0].secondDart = '-'
-  this.gameData[0].thirdDart = '-'
-  this.gameData[0].round += 1
+  if (this.gameData[this.currentPlayerCount].score == 0) {
+    this.winnerModalOpen = true;
+  } else {
+    if (this.gameData[this.currentPlayerCount].score < 0) {
+      this.deleteLastDart()
+      this.deleteLastDart()
+      this.deleteLastDart()
+    }
+    this.gameData[this.currentPlayerCount].firstDart = '-'
+    this.gameData[this.currentPlayerCount].secondDart = '-'
+    this.gameData[this.currentPlayerCount].thirdDart = '-'
+    this.gameData[this.currentPlayerCount].round += 1
+  
+    if (this.playerCount > this.currentPlayerCount) {
+      this.currentPlayerCount = this.currentPlayerCount + 1
+    } else {
+      this.currentPlayerCount = 0
+    }
+  }
+  this.calculateCheckoutCurrentPlayer();
+  this.inRound = true;
 }
 
 // Score Berechnung
@@ -90,8 +165,8 @@ calcScore(thrownNumber: string) {
   // Berechne den Score basierend auf dem Multiplikator und der Zahl
   const score = parseInt(number) * multiplierFactor;
 
-  // Speichere den Score in this.gameData[0].score
-  this.gameData[0].score -= score;
+  // Speichere den Score in this.gameData[this.currentPlayerCount].score
+  this.gameData[this.currentPlayerCount].score -= score;
 }
 
 // Score Berechnung
@@ -112,25 +187,57 @@ calcRemoveScore(thrownNumber: string) {
   // Berechne den Score basierend auf dem Multiplikator und der Zahl
   const score = parseInt(number) * multiplierFactor;
 
-  // Speichere den Score in this.gameData[0].score
-  this.gameData[0].score += score;
+  // Speichere den Score in this.gameData[this.currentPlayerCount].score
+  this.gameData[this.currentPlayerCount].score += score;
 }
 
 // Letzten Dart löschen
 
 deleteLastDart() {
-  if (this.gameData[0].thirdDart != '-') {
-    this.calcRemoveScore(this.gameData[0].thirdDart)
-    this.gameData[0].thirdDart = '-'
-  } else if(this.gameData[0].secondDart != '-') {
-    this.calcRemoveScore(this.gameData[0].secondDart)
-    this.gameData[0].secondDart = '-'
-  } else if (this.gameData[0].firstDart != '-') {
-    this.calcRemoveScore(this.gameData[0].firstDart)
-    this.gameData[0].firstDart = '-'
+  if (this.gameData[this.currentPlayerCount].thirdDart != '-') {
+    this.calcRemoveScore(this.gameData[this.currentPlayerCount].thirdDart)
+    this.calculateCheckoutCurrentPlayer();
+    this.gameData[this.currentPlayerCount].thirdDart = '-'
+  } else if(this.gameData[this.currentPlayerCount].secondDart != '-') {
+    this.calcRemoveScore(this.gameData[this.currentPlayerCount].secondDart)
+    this.calculateCheckoutCurrentPlayer();
+    this.gameData[this.currentPlayerCount].secondDart = '-'
+  } else if (this.gameData[this.currentPlayerCount].firstDart != '-') {
+    this.calcRemoveScore(this.gameData[this.currentPlayerCount].firstDart)
+    this.calculateCheckoutCurrentPlayer();
+    this.gameData[this.currentPlayerCount].firstDart = '-'
   }
+  this.inRound = true;
 }
 
+// Modal schließen
 
+closeWinnerModal() {
+  this.gameData[this.currentPlayerCount].wins += 1
+  this.nextRound()
+  //console.log(this.gameData)
+  this.winnerModalOpen = false;
+}
+
+// Überprüfe Checkout
+
+calculateCheckoutCurrentPlayer() {
+    const score = this.gameData[this.currentPlayerCount].score;
+    let checkout = this.checkoutService.getCheckout(score);
+
+    if (this.gameData[this.currentPlayerCount].secondDart !== '-') {
+      checkout = this.checkoutService.getOneDartCheckout(score);
+    } else if (this.gameData[this.currentPlayerCount].firstDart !== '-') {
+      checkout = this.checkoutService.getTwoDartsCheckout(score);
+    }
+    
+    // Speichere den Checkout für den aktuellen Spieler
+    if (checkout !== '') {
+      this.possibleCheckout = checkout;
+    } else {
+      this.possibleCheckout = "-"
+    }
+    
+}
 
 }
