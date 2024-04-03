@@ -101,10 +101,12 @@ nextRound() {
     // Aktualisieren der Rundennummer für alle Spieler
     this.gameData.forEach(player => {
       if (player) {
-        player.round++;
+        player.roundTotal = 0
         player.firstDart = '-'
         player.secondDart = '-'
         player.thirdDart = '-'
+        player.round = 1
+        player.roundAverage = 0
         player.score = modeNum
       }
     });
