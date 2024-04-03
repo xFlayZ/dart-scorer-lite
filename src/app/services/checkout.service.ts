@@ -284,6 +284,7 @@ export class CheckoutService {
     38: "D19",
     36: "D18",
     34: "D17",
+    33: "D11",
     32: "D16",
     30: "D15",
     28: "D14",
