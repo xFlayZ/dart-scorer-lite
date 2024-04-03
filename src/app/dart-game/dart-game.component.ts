@@ -132,6 +132,7 @@ nextPlayer() {
       this.deleteLastDart()
       this.deleteLastDart()
     }
+    this.gameData[this.currentPlayerCount].roundAverage = parseFloat((this.gameData[this.currentPlayerCount].roundTotal / this.gameData[this.currentPlayerCount].round).toFixed(2));
     this.gameData[this.currentPlayerCount].firstDart = '-'
     this.gameData[this.currentPlayerCount].secondDart = '-'
     this.gameData[this.currentPlayerCount].thirdDart = '-'
@@ -164,6 +165,8 @@ calcScore(thrownNumber: string) {
 
   // Berechne den Score basierend auf dem Multiplikator und der Zahl
   const score = parseInt(number) * multiplierFactor;
+
+  this.gameData[this.currentPlayerCount].roundTotal += score;
 
   // Speichere den Score in this.gameData[this.currentPlayerCount].score
   this.gameData[this.currentPlayerCount].score -= score;
@@ -238,6 +241,12 @@ calculateCheckoutCurrentPlayer() {
       this.possibleCheckout = "-"
     }
     
+}
+
+// Sort Table
+
+get sortedGameData() {
+  return this.gameData.slice().sort((a, b) => b.wins - a.wins);
 }
 
 }

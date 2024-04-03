@@ -3,13 +3,13 @@
     <!-- player-card -->
     <div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 mt-28">
       <div class="grid grid-cols-12">
-        <div class="col-start-1 col-span-3 text-center">
+        <div class="col-start-1 col-span-3 font-bold text-2xl text-center">
           {{ gameData[currentPlayerCount].player }}
         </div>
-        <div class="col-start-6 text-center">
+        <div class="col-start-6 font-bold text-2xl text-center">
           {{ gameData[currentPlayerCount].score }}
         </div>
-        <div class="col-start-12 text-center bg-yellow-500">
+        <div class="col-start-12 text-center text-2xl bg-yellow-500">
           {{ gameData[currentPlayerCount].round }}
         </div>
       </div>
@@ -30,7 +30,7 @@
           {{ gameData[currentPlayerCount].thirdDart }}
         </div>
       </div>
-      <div class="possibleCheckout mt-5">
+      <div class="possibleCheckout font-bold text-2xl mt-5">
         <p>Möglicher Checkout:</p>
         <p>{{ possibleCheckout }}</p>
       </div>
@@ -72,6 +72,35 @@
     ></app-dart-board>
   </div>
 </div>
+
+<!-- gameData Table -->
+<div class="mt-8">
+  <div class="overflow-x-auto mt-4">
+    <table class="table-auto min-w-full bg-white shadow-md overflow-hidden">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="px-4 py-2 text-left">Spieler</th>
+          <th class="px-4 py-2 text-left">Gewonnene Runden</th>
+          <th class="px-4 py-2 text-left">Rest Score</th>
+          <th class="px-4 py-2 text-left">Runde</th>
+          <th class="px-4 py-2 text-left">Runden Average</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        <!-- Sortiere Spieler nach gewonnenen Runden -->
+        <tr *ngFor="let player of sortedGameData" class="border-b">
+          <td class="px-4 py-2 text-left">{{ player.player }}</td>
+          <td class="px-4 py-2 text-left">{{ player.wins }}</td>
+          <td class="px-4 py-2 text-left">{{ player.score }}</td>
+          <td class="px-4 py-2 text-left">{{ player.round }}</td>
+          <td class="px-4 py-2 text-left">{{ player.roundAverage }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- modal area -->
 <app-dart-winner-modal
   [isOpen]="winnerModalOpen"
   [winner]="gameData[currentPlayerCount].player"
