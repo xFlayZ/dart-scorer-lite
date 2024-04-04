@@ -168,7 +168,9 @@ export class DartGameComponent implements OnInit {
     const score = currentPlayer.score;
     let checkout = this.checkoutService.getCheckout(score);
 
-    if (currentPlayer.secondDart !== '-') {
+    if (currentPlayer.thirdDart !== '-') {
+      checkout = '';
+    } else if (currentPlayer.secondDart !== '-') {
       checkout = this.checkoutService.getOneDartCheckout(score);
     } else if (currentPlayer.firstDart !== '-') {
       checkout = this.checkoutService.getTwoDartsCheckout(score);
