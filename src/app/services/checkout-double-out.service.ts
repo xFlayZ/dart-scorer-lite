@@ -285,7 +285,6 @@ export class CheckoutDoubleOutService {
     30: "D15",
     28: "D14",
     26: "D13",
-    25: "25",
     24: "D12",
     22: "D11",
     20: "D10",

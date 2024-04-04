@@ -94,6 +94,8 @@ export class DartGameDoubleOutComponent {
 
       this.playerCount = this.gameData.length - 1;
     }
+
+    this.doubleOut = false;
   }
 
   nextPlayer() {
@@ -134,7 +136,7 @@ export class DartGameDoubleOutComponent {
     currentPlayer.roundTotal += score;
     currentPlayer.score -= score;
 
-    if (currentPlayer.score === 0 && multiplierFactor === 2 ) {
+    if (currentPlayer.score === 0 && multiplierFactor === 2 || currentPlayer.score === 0 && parseInt(number) === 50) {
       this.doubleOut = true;
     }
   }
@@ -150,7 +152,7 @@ export class DartGameDoubleOutComponent {
         const number = (multiplier === 'T' || multiplier === 'D') ? score.slice(1) : score;
         const multiplierFactor = (multiplier === 'T') ? 3 : (multiplier === 'D') ? 2 : 1;
 
-        if (currentPlayer.score === 0 && multiplierFactor === 2 ) {
+        if (currentPlayer.score === 0 && multiplierFactor === 2 || currentPlayer.score === 0 && parseInt(number) === 50) {
           this.doubleOut = false;
         }
 

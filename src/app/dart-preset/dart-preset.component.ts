@@ -15,13 +15,15 @@ export class DartPresetComponent {
   @Output() gameStarted: EventEmitter<{ players: string[], scoreValue: string, gameMode: string }> = new EventEmitter();
 
   addPlayer(): void {
-    const playerName = this.newPlayerName.trim();
+    let playerName = this.newPlayerName.trim();
     if (playerName !== '') {
+      playerName = playerName.charAt(0).toUpperCase() + playerName.slice(1);
       this.players.push(playerName);
       this.newPlayerName = ''; 
       this.errorMessage = '';
     }
   }
+  
 
   removePlayer(index: number): void {
     if (index >= 0 && index < this.players.length) {

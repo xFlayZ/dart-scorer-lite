@@ -37,27 +37,42 @@
     <div
       class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex justify-center mt-2"
     >
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-        (click)="nextPlayer()"
-        [ngClass]="{
-          'opacity-50 cursor-not-allowed': inRound
-        }"
-        [disabled]="inRound"
-      >
-        Nächster Spieler
-      </button>
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        (click)="deleteLastDart()"
-        [ngClass]="{
-          'opacity-50 cursor-not-allowed':
-            gameData[currentPlayerCount].firstDart === '-'
-        }"
-        [disabled]="gameData[currentPlayerCount].firstDart === '-'"
-      >
-        Letzten Dart löschen
-      </button>
+      <div *ngIf="!legEnd" class="buttons-in-round">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+          (click)="nextPlayer()"
+          [ngClass]="{
+            'opacity-50 cursor-not-allowed': inRound
+          }"
+          [disabled]="inRound"
+        >
+          Nächster Spieler
+        </button>
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          (click)="deleteLastDart()"
+          [ngClass]="{
+            'opacity-50 cursor-not-allowed':
+              gameData[currentPlayerCount].firstDart === '-'
+          }"
+          [disabled]="gameData[currentPlayerCount].firstDart === '-'"
+        >
+          Letzten Dart löschen
+        </button>
+      </div>
+      <div *ngIf="legEnd" class="buttons-after-round">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          (click)="nextRound()"
+          [ngClass]="{
+            'opacity-50 cursor-not-allowed':
+              gameData[currentPlayerCount].firstDart === '-'
+          }"
+          [disabled]="gameData[currentPlayerCount].firstDart === '-'"
+        >
+          Neue Runde
+        </button>
+      </div>
     </div>
 
     <!-- game control buttons end -->
@@ -90,6 +105,65 @@
           <td class="px-4 py-2 text-left">{{ player.score }}</td>
           <td class="px-4 py-2 text-left">{{ player.round }}</td>
           <td class="px-4 py-2 text-left">{{ player.roundAverage }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Trys Table -->
+<div class="mt-8">
+  <div class="overflow-x-auto mt-4">
+    <table class="table-auto min-w-full bg-white shadow-md overflow-hidden">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="px-4 py-2 text-left">Spieler</th>
+          <th class="px-4 py-2 text-left">1</th>
+          <th class="px-4 py-2 text-left">2</th>
+          <th class="px-4 py-2 text-left">3</th>
+          <th class="px-4 py-2 text-left">4</th>
+          <th class="px-4 py-2 text-left">5</th>
+          <th class="px-4 py-2 text-left">6</th>
+          <th class="px-4 py-2 text-left">7</th>
+          <th class="px-4 py-2 text-left">8</th>
+          <th class="px-4 py-2 text-left">9</th>
+          <th class="px-4 py-2 text-left">10</th>
+          <th class="px-4 py-2 text-left">11</th>
+          <th class="px-4 py-2 text-left">12</th>
+          <th class="px-4 py-2 text-left">13</th>
+          <th class="px-4 py-2 text-left">14</th>
+          <th class="px-4 py-2 text-left">15</th>
+          <th class="px-4 py-2 text-left">16</th>
+          <th class="px-4 py-2 text-left">17</th>
+          <th class="px-4 py-2 text-left">18</th>
+          <th class="px-4 py-2 text-left">19</th>
+          <th class="px-4 py-2 text-left">20</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        <!-- Sortiere Spieler nach gewonnenen Runden -->
+        <tr *ngFor="let player of gameData" class="border-b">
+          <td class="px-4 py-2 text-left">{{ player.player }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForOne }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForTwo }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForThree }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForFour }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForFive }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForSix }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForSeven }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForEight }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForNine }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForTen }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForEleven }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForTwelve }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForThirteen }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForFourteen }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForFifteen }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForSixteen }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForSeventeen }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForEighteen }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForNineteen }}</td>
+          <td class="px-4 py-2 text-left">{{ player.trysForTwenty }}</td>
         </tr>
       </tbody>
     </table>
