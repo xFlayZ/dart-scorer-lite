@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { DartGameComponent } from './dart-game/dart-game.component';
 import { DartWinnerModalComponent } from './dart-winner-modal/dart-winner-modal.component';
 import { FooterComponent } from './footer/footer.component';
+import { VideoModalComponent } from './video-modal/video-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { FooterComponent } from './footer/footer.component';
     ErrorMessageComponent,
     DartGameComponent,
     DartWinnerModalComponent,
-    FooterComponent
+    FooterComponent,
+    VideoModalComponent
   ],
   imports: [
     BrowserModule,
