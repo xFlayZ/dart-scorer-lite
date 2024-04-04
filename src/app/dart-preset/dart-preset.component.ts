@@ -9,10 +9,10 @@ export class DartPresetComponent {
   players: string[] = [];
   gameSettings: string[] = [];
   newPlayerName: string = '';
-  mode: string = '301';
-  difficulty: string = 'Single Out';
+  scoreValue: string = '301';
+  gameMode: string = 'singleOut';
   errorMessage: string = '';
-  @Output() gameStarted: EventEmitter<{ players: string[], mode: string, difficulty: string }> = new EventEmitter();
+  @Output() gameStarted: EventEmitter<{ players: string[], scoreValue: string, gameMode: string }> = new EventEmitter();
 
   addPlayer(): void {
     const playerName = this.newPlayerName.trim();
@@ -47,19 +47,18 @@ export class DartPresetComponent {
 
   startGame(): void {
     if(this.players.length > 0) {
-      this.gameStarted.emit({ players: this.players, mode: this.mode, difficulty: this.difficulty });
-      console.log(this.gameStarted)
+      this.gameStarted.emit({ players: this.players, scoreValue: this.scoreValue, gameMode: this.gameMode });
     } else {
       this.errorMessage = "Es muss mindestens einen Spieler geben!";
     }    
   }
 
-  updateMode(mode: string): void {
-    this.mode = mode;
+  updateScoreValue(scoreValue: string): void {
+    this.scoreValue = scoreValue;
   }
 
-  updateDifficulty(difficulty: string): void {
-    this.difficulty = difficulty;
+  updateGameMode(gameMode: string): void {
+    this.gameMode = gameMode;
   }
 
 }

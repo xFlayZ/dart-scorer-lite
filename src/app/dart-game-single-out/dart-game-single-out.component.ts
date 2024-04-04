@@ -1,14 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CheckoutService } from '../services/checkout.service';
 import { GameData } from '../interfaces/game-data.interface';
+import { shuffleArray } from '../helpers';
 
 @Component({
-  selector: 'app-dart-game',
-  templateUrl: './dart-game.component.html',
-  styleUrls: ['./dart-game.component.scss']
+  selector: 'app-dart-game-single-out',
+  templateUrl: './dart-game-single-out.component.html',
+  styleUrls: ['./dart-game-single-out.component.scss']
 })
 
-export class DartGameComponent implements OnInit {
+export class DartGameSingleOutComponent implements OnInit {
   public gameData: GameData[] = [];
   public playerCount = 0;
   public currentPlayerCount = 0;
@@ -17,8 +18,7 @@ export class DartGameComponent implements OnInit {
   public inRound = true;
 
   @Input() players: string[] = [];
-  @Input() mode = '';
-  @Input() difficulty = '';
+  @Input() scoreValue = '';
 
   constructor(private checkoutService: CheckoutService) { }
 
@@ -45,12 +45,12 @@ export class DartGameComponent implements OnInit {
   }
 
   setupGame() {
-    const modeNum = parseInt(this.mode, 10);
-    const shuffledPlayers = this.shuffleArray(this.players);
+    const scoreValueNum = parseInt(this.scoreValue, 10);
+    const shuffledPlayers = shuffleArray(this.players);
 
     this.gameData = shuffledPlayers.map(player => ({
       player: player,
-      score: modeNum,
+      score: scoreValueNum,
       wins: 0,
       roundAverage: 0,
       totalAverage: 0,
@@ -66,16 +66,8 @@ export class DartGameComponent implements OnInit {
     this.playerCount = this.players.length - 1;
   }
 
-  shuffleArray(array: any[]) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-
   nextRound() {
-    const modeNum = parseInt(this.mode, 10);
+    const scoreValueNum = parseInt(this.scoreValue, 10);
 
     if (this.gameData && this.gameData.length > 0) {
       const lastPlayer = this.gameData.shift();
@@ -92,7 +84,7 @@ export class DartGameComponent implements OnInit {
           player.thirdDart = '-';
           player.round = 1;
           player.roundAverage = 0;
-          player.score = modeNum;
+          player.score = scoreValueNum;
         }
       });
 

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DartGameComponent } from './dart-game.component';
+import { DartGameComponent } from './dart-game-single-out.component';
 
 describe('DartGameComponent', () => {
   let component: DartGameComponent;

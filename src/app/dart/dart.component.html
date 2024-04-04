@@ -1,10 +1,15 @@
 <div *ngIf="!gameStartedData" class="preset">
   <app-dart-preset (gameStarted)="receiveGameStarted($event)"></app-dart-preset>
 </div>
-<div *ngIf="gameStartedData" class="dart-game">
-  <app-dart-game
+<div *ngIf="gameStartedData" class="dart-games">
+  <app-dart-game-single-out
+    *ngIf="gameStartedData.gameMode === 'singleOut'"
     [players]="gameStartedData.players"
-    [mode]="gameStartedData.mode"
-    [difficulty]="gameStartedData.difficulty"
-  ></app-dart-game>
+    [scoreValue]="gameStartedData.scoreValue"
+  ></app-dart-game-single-out>
+  <app-dart-game-around-the-clock
+    *ngIf="gameStartedData.gameMode === 'aroundTheClock'"
+    [players]="gameStartedData.players"
+  >
+  </app-dart-game-around-the-clock>
 </div>

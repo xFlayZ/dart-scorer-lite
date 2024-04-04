@@ -1,0 +1,104 @@
+<div class="grid grid-cols-2 gap-4 mt-3 ml-3">
+  <div>
+    <!-- player-card -->
+    <div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 mt-20">
+      <div class="grid grid-cols-12">
+        <div class="col-start-1 col-span-3 font-bold text-5xl text-center">
+          {{ gameData[currentPlayerCount].player }}
+        </div>
+        <div class="col-start-6 font-bold text-5xl text-center">
+          {{ gameData[currentPlayerCount].score }}
+        </div>
+        <div class="col-start-12 text-center text-5xl bg-yellow-500">
+          {{ gameData[currentPlayerCount].round }}
+        </div>
+      </div>
+      <div class="grid grid-cols-12 mt-10">
+        <div
+          class="col-start-1 col-span-3 h-16 flex items-center justify-center bg-white text-black font-extrabold text-4xl"
+        >
+          {{ gameData[currentPlayerCount].firstDart }}
+        </div>
+        <div
+          class="col-start-5 col-span-3 text-center h-16 flex items-center justify-center bg-white text-black font-extrabold text-4xl"
+        >
+          {{ gameData[currentPlayerCount].secondDart }}
+        </div>
+        <div
+          class="col-start-9 col-span-3 text-center h-16 flex items-center justify-center bg-white text-black font-extrabold text-4xl"
+        >
+          {{ gameData[currentPlayerCount].thirdDart }}
+        </div>
+      </div>
+    </div>
+
+    <!-- player-card-end -->
+    <!-- game control buttons -->
+    <div
+      class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex justify-center mt-2"
+    >
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+        (click)="nextPlayer()"
+        [ngClass]="{
+          'opacity-50 cursor-not-allowed': inRound
+        }"
+        [disabled]="inRound"
+      >
+        Nächster Spieler
+      </button>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        (click)="deleteLastDart()"
+        [ngClass]="{
+          'opacity-50 cursor-not-allowed':
+            gameData[currentPlayerCount].firstDart === '-'
+        }"
+        [disabled]="gameData[currentPlayerCount].firstDart === '-'"
+      >
+        Letzten Dart löschen
+      </button>
+    </div>
+
+    <!-- game control buttons end -->
+  </div>
+  <div>
+    <app-dart-board
+      (thrownNumber)="onThrownNumberChange($event)"
+    ></app-dart-board>
+  </div>
+</div>
+
+<!-- gameData Table -->
+<div class="mt-8">
+  <div class="overflow-x-auto mt-4">
+    <table class="table-auto min-w-full bg-white shadow-md overflow-hidden">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="px-4 py-2 text-left">Spieler</th>
+          <th class="px-4 py-2 text-left">Gewonnene Legs</th>
+          <th class="px-4 py-2 text-left">Rest Score</th>
+          <th class="px-4 py-2 text-left">Runde</th>
+          <th class="px-4 py-2 text-left">Runden Average</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        <!-- Sortiere Spieler nach gewonnenen Runden -->
+        <tr *ngFor="let player of sortedGameData" class="border-b">
+          <td class="px-4 py-2 text-left">{{ player.player }}</td>
+          <td class="px-4 py-2 text-left">{{ player.wins }}</td>
+          <td class="px-4 py-2 text-left">{{ player.score }}</td>
+          <td class="px-4 py-2 text-left">{{ player.round }}</td>
+          <td class="px-4 py-2 text-left">{{ player.roundAverage }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- modal area -->
+<app-dart-winner-modal
+  [isOpen]="winnerModalOpen"
+  [winner]="gameData[currentPlayerCount].player"
+  (closeModalEvent)="closeWinnerModal()"
+></app-dart-winner-modal>

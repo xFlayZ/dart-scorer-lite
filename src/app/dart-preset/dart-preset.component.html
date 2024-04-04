@@ -44,57 +44,57 @@
 
     <div class="grid grid-cols-2 mt-4">
       <div class="col-start-1">
-        <h5 class="text-lg font-semibold underline">Modus</h5>
+        <h5 class="text-lg font-semibold underline">Spielmodus</h5>
         <div class="flex items-center mt-2">
           <input
             class="form-radio mt-1"
             type="radio"
-            name="mode"
-            id="mode301"
-            value="301"
-            [checked]="mode === '301'"
-            (change)="updateMode('301')"
-          />
-          <label class="ml-2 cursor-pointer" for="mode301">301</label>
-        </div>
-        <div class="flex items-center mt-2">
-          <input
-            class="form-radio mt-1"
-            type="radio"
-            name="mode"
-            id="mode501"
-            value="501"
-            [checked]="mode === '501'"
-            (change)="updateMode('501')"
-          />
-          <label class="ml-2 cursor-pointer" for="mode501">501</label>
-        </div>
-      </div>
-      <div class="col-start-2">
-        <h5 class="text-lg font-semibold underline">Schwierigkeit</h5>
-        <div class="flex items-center mt-2">
-          <input
-            class="form-radio mt-1"
-            type="radio"
-            name="difficulty"
+            name="gameMode"
             id="singleOut"
-            value="Single Out"
-            [checked]="difficulty === 'Single Out'"
-            (change)="updateDifficulty('Single Out')"
+            value="singleOut"
+            [checked]="gameMode === 'singleOut'"
+            (change)="updateGameMode('singleOut')"
           />
           <label class="ml-2 cursor-pointer" for="singleOut">Single Out</label>
         </div>
         <div class="flex items-center mt-2">
           <input
-            class="form-radio mt-1 cursor-not-allowed"
+            class="form-radio mt-1"
             type="radio"
-            name="difficulty"
+            name="gameMode"
             id="aroundTheClock"
             value="aroundTheClock"
-            [checked]="difficulty === 'aroundTheClock'"
-            (change)="updateDifficulty('aroundTheClock')"
+            [checked]="gameMode === 'aroundTheClock'"
+            (change)="updateGameMode('aroundTheClock')"
           />
-          <label class="ml-2 cursor-not-allowed">Around the Clock</label>
+          <label class="ml-2 cursor-pointer">Around the Clock</label>
+        </div>
+      </div>
+      <div *ngIf="gameMode === 'singleOut'" class="col-start-2">
+        <h5 class="text-lg font-semibold underline">Score</h5>
+        <div class="flex items-center mt-2">
+          <input
+            class="form-radio mt-1"
+            type="radio"
+            name="scoreValue"
+            id="scoreValue301"
+            value="301"
+            [checked]="scoreValue === '301'"
+            (change)="updateScoreValue('301')"
+          />
+          <label class="ml-2 cursor-pointer" for="scoreValue301">301</label>
+        </div>
+        <div class="flex items-center mt-2">
+          <input
+            class="form-radio mt-1"
+            type="radio"
+            name="scoreValue"
+            id="scoreValue501"
+            value="501"
+            [checked]="scoreValue === '501'"
+            (change)="updateScoreValue('501')"
+          />
+          <label class="ml-2 cursor-pointer" for="scoreValue501">501</label>
         </div>
       </div>
     </div>

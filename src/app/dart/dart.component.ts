@@ -6,9 +6,9 @@ import { Component } from '@angular/core';
   styleUrl: './dart.component.scss'
 })
 export class DartComponent {
-  gameStartedData: { players: string[], mode: string, difficulty: string } | null = null;
+  gameStartedData: { players: string[], scoreValue: string, gameMode: string } | null = null;
 
-  receiveGameStarted(event: { players: string[], mode: string, difficulty: string }): void {
+  receiveGameStarted(event: { players: string[], scoreValue: string, gameMode: string }): void {
     this.gameStartedData = event;
   }
 }
