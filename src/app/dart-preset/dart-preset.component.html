@@ -62,6 +62,18 @@
             class="form-radio mt-1"
             type="radio"
             name="gameMode"
+            id="doubleOut"
+            value="doubleOut"
+            [checked]="gameMode === 'doubleOut'"
+            (change)="updateGameMode('doubleOut')"
+          />
+          <label class="ml-2 cursor-pointer" for="doubleOut">Double Out</label>
+        </div>
+        <div class="flex items-center mt-2">
+          <input
+            class="form-radio mt-1"
+            type="radio"
+            name="gameMode"
             id="aroundTheClock"
             value="aroundTheClock"
             [checked]="gameMode === 'aroundTheClock'"
@@ -72,7 +84,7 @@
           >
         </div>
       </div>
-      <div *ngIf="gameMode === 'singleOut'" class="col-start-2">
+      <div *ngIf="gameMode !== 'aroundTheClock'" class="col-start-2">
         <h5 class="text-lg font-semibold underline">Score</h5>
         <div class="flex items-center mt-2">
           <input
