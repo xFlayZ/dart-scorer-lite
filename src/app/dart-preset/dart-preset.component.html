@@ -89,15 +89,12 @@
             class="form-radio mt-1 cursor-not-allowed"
             type="radio"
             name="difficulty"
-            id="doubleOut"
-            value="Double Out"
-            [checked]="difficulty === 'Double Out'"
-            (change)="updateDifficulty('Double Out')"
-            disabled
+            id="aroundTheClock"
+            value="aroundTheClock"
+            [checked]="difficulty === 'aroundTheClock'"
+            (change)="updateDifficulty('aroundTheClock')"
           />
-          <label class="ml-2 cursor-not-allowed" for="doubleOut"
-            >Double Out (In Arbeit..)</label
-          >
+          <label class="ml-2 cursor-not-allowed">Around the Clock</label>
         </div>
       </div>
     </div>
