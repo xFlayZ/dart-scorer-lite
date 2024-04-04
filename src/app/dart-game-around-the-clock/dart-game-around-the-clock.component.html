@@ -84,33 +84,6 @@
   </div>
 </div>
 
-<!-- gameData Table -->
-<div class="mt-8">
-  <div class="overflow-x-auto mt-4">
-    <table class="table-auto min-w-full bg-white shadow-md overflow-hidden">
-      <thead class="bg-gray-800 text-white">
-        <tr>
-          <th class="px-4 py-2 text-left">Spieler</th>
-          <th class="px-4 py-2 text-left">Gewonnene Legs</th>
-          <th class="px-4 py-2 text-left">Rest Score</th>
-          <th class="px-4 py-2 text-left">Runde</th>
-          <th class="px-4 py-2 text-left">Runden Average</th>
-        </tr>
-      </thead>
-      <tbody class="text-gray-700">
-        <!-- Sortiere Spieler nach gewonnenen Runden -->
-        <tr *ngFor="let player of sortedGameData" class="border-b">
-          <td class="px-4 py-2 text-left">{{ player.player }}</td>
-          <td class="px-4 py-2 text-left">{{ player.wins }}</td>
-          <td class="px-4 py-2 text-left">{{ player.score }}</td>
-          <td class="px-4 py-2 text-left">{{ player.round }}</td>
-          <td class="px-4 py-2 text-left">{{ player.roundAverage }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
 <!-- Trys Table -->
 <div class="mt-8">
   <div class="overflow-x-auto mt-4">
@@ -164,6 +137,27 @@
           <td class="px-4 py-2 text-left">{{ player.trysForEighteen }}</td>
           <td class="px-4 py-2 text-left">{{ player.trysForNineteen }}</td>
           <td class="px-4 py-2 text-left">{{ player.trysForTwenty }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- gameData Table -->
+<div class="mt-8">
+  <div class="overflow-x-auto mt-4">
+    <table class="table-auto min-w-full bg-white shadow-md overflow-hidden">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="px-4 py-2 text-left">Spieler</th>
+          <th class="px-4 py-2 text-left">Gewonnene Legs</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        <!-- Sortiere Spieler nach gewonnenen Runden -->
+        <tr *ngFor="let player of sortedGameData" class="border-b">
+          <td class="px-4 py-2 text-left">{{ player.player }}</td>
+          <td class="px-4 py-2 text-left">{{ player.wins }}</td>
         </tr>
       </tbody>
     </table>
