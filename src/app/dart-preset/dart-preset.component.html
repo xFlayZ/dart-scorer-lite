@@ -67,7 +67,9 @@
             [checked]="gameMode === 'aroundTheClock'"
             (change)="updateGameMode('aroundTheClock')"
           />
-          <label class="ml-2 cursor-pointer">Around the Clock</label>
+          <label class="ml-2 cursor-pointer" for="aroundTheClock"
+            >Around the Clock</label
+          >
         </div>
       </div>
       <div *ngIf="gameMode === 'singleOut'" class="col-start-2">
