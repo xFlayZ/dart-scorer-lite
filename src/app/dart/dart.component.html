@@ -7,6 +7,12 @@
     [players]="gameStartedData.players"
     [scoreValue]="gameStartedData.scoreValue"
   ></app-dart-game-single-out>
+  <app-dart-game-double-out
+    *ngIf="gameStartedData.gameMode === 'doubleOut'"
+    [players]="gameStartedData.players"
+    [scoreValue]="gameStartedData.scoreValue"
+  >
+  </app-dart-game-double-out>
   <app-dart-game-around-the-clock
     *ngIf="gameStartedData.gameMode === 'aroundTheClock'"
     [players]="gameStartedData.players"

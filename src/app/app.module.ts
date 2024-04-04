@@ -14,6 +14,7 @@ import { DartWinnerModalComponent } from './dart-winner-modal/dart-winner-modal.
 import { FooterComponent } from './footer/footer.component';
 import { VideoModalComponent } from './video-modal/video-modal.component';
 import { DartGameAroundTheClockComponent } from './dart-game-around-the-clock/dart-game-around-the-clock.component';
+import { DartGameDoubleOutComponent } from './dart-game-double-out/dart-game-double-out.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DartGameAroundTheClockComponent } from './dart-game-around-the-clock/da
     DartWinnerModalComponent,
     FooterComponent,
     VideoModalComponent,
-    DartGameAroundTheClockComponent
+    DartGameAroundTheClockComponent,
+    DartGameDoubleOutComponent
   ],
   imports: [
     BrowserModule,
