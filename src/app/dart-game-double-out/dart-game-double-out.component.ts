@@ -104,12 +104,12 @@ export class DartGameDoubleOutComponent {
     if (currentPlayer.score === 0 && this.doubleOut) {
       this.winnerModalOpen = true;
     } else {
-      if (currentPlayer.score < 0) {
+      if (currentPlayer.score <= 1) {
         this.deleteLastDart();
         this.deleteLastDart();
         this.deleteLastDart();
       } 
-      if (currentPlayer.score === 0 && !this.doubleOut) {
+      if (currentPlayer.score <= 1 && !this.doubleOut) {
         this.deleteLastDart();
         this.deleteLastDart();
         this.deleteLastDart();
