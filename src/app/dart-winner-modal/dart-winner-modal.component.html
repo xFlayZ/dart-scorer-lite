@@ -1,0 +1,22 @@
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 overflow-y-auto flex items-center justify-center z-50"
+>
+  <div class="relative mx-auto max-w-lg">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+      <!-- Modal Content -->
+      <div class="modal-content">
+        <div class="modal-header flex justify-between border-b pb-4">
+          <h3 class="modal-title text-lg font-semibold">Runde beendet!</h3>
+          <button
+            class="modal-close text-gray-600 hover:text-gray-800"
+            (click)="closeModal()"
+          >
+            X
+          </button>
+        </div>
+        <div class="modal-body pt-4">{{ winner }} hat die Runde Gewonnen!</div>
+      </div>
+    </div>
+  </div>
+</div>

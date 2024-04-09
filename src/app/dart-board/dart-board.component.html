@@ -1,0 +1,425 @@
+<div
+  class="circle"
+  (mouseover)="addHighlight($event)"
+  (mouseout)="removeHighlight($event)"
+  (click)="count('0')"
+>
+  <div class="number">6</div>
+  <div class="number">13</div>
+  <div class="number">4</div>
+  <div class="number">18</div>
+  <div class="number">1</div>
+  <div class="number">20</div>
+  <div class="number">5</div>
+  <div class="number">12</div>
+  <div class="number">9</div>
+  <div class="number">14</div>
+  <div class="number">11</div>
+  <div class="number">8</div>
+  <div class="number">16</div>
+  <div class="number">7</div>
+  <div class="number">19</div>
+  <div class="number">3</div>
+  <div class="number">17</div>
+  <div class="number">2</div>
+  <div class="number">15</div>
+  <div class="number">10</div>
+  <div class="inner-circle">
+    <div class="triangle-container">
+      <div
+        class="triangle triangle-black"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('20'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T20'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D20'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle triangle"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('5'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T5'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D5'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle triangle-black"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('12'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T12'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D12'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('9'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T9'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D9'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle triangle-black"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('14'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T14'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D14'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('11'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T11'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D11'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle triangle-black"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('8'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T8'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D8'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('16'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T16'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D16'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle triangle-black"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('7'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T7'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D7'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('19'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T19'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D19'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle triangle-black"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('3'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T3'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D3'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('17'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T17'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D17'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle triangle-black"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('2'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T2'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D2'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('15'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T15'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D15'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle triangle-black"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('10'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T10'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D10'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('6'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T6'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D6'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle triangle-black"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('13'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T13'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D13'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('4'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T4'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D4'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle triangle-black"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('18'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T18'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D18'); $event.stopPropagation()"
+        ></div>
+      </div>
+      <div
+        class="triangle"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('1'); $event.stopPropagation()"
+      >
+        <div
+          class="tripple green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('T1'); $event.stopPropagation()"
+        ></div>
+        <div
+          class="double green"
+          (mouseover)="addHighlight($event)"
+          (mouseout)="removeHighlight($event)"
+          (click)="count('D1'); $event.stopPropagation()"
+        ></div>
+      </div>
+    </div>
+    <div
+      *ngIf="true"
+      class="bullseye"
+      (mouseover)="addHighlight($event)"
+      (mouseout)="removeHighlight($event)"
+      (click)="count('25'); $event.stopPropagation()"
+    >
+      <div
+        class="inner-bullseye"
+        (mouseover)="addHighlight($event)"
+        (mouseout)="removeHighlight($event)"
+        (click)="count('50'); $event.stopPropagation()"
+      ></div>
+    </div>
+  </div>
+</div>
