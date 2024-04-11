@@ -13,6 +13,7 @@ export class DartGameSingleOutComponent implements OnInit {
   public gameData: GameData[] = [];
   public playerCount = 0;
   public currentPlayerCount = 0;
+  public lastRoundScore = 0;
   public lastThrownNumber = "-";
   public possibleCheckout = '-';
   public inRound = true;
@@ -25,18 +26,7 @@ export class DartGameSingleOutComponent implements OnInit {
   constructor(private checkoutService: CheckoutService) { }
 
   ngOnInit(): void {
-    const savedGameData = localStorage.getItem('gameData');
-    if (savedGameData) {
-      const savedData = localStorage.getItem('gameStartedData');
-      if (savedData) {
-        const { players,scoreValue } = JSON.parse(savedData);
-        this.players = players;
-        this.scoreValue = scoreValue;
-      }
-      this.gameData = JSON.parse(savedGameData);
-    } else {
-      this.setupGame();
-    }
+    this.setupGame();
   }
 
   onThrownNumberChange(thrownNumber: string) {
@@ -130,6 +120,10 @@ export class DartGameSingleOutComponent implements OnInit {
         this.deleteLastDart();
         this.deleteLastDart();
       }
+      if (this.lastRoundScore > currentPlayer.highestRound) {
+        currentPlayer.highestRound = this.lastRoundScore
+      }
+      this.lastRoundScore = 0;
       currentPlayer.roundAverage = parseFloat((currentPlayer.roundTotal / currentPlayer.round).toFixed(2));
       currentPlayer.firstDart = '-';
       currentPlayer.secondDart = '-';
@@ -149,6 +143,7 @@ export class DartGameSingleOutComponent implements OnInit {
     const multiplierFactor = (multiplier === 'T') ? 3 : (multiplier === 'D') ? 2 : 1;
     const score = parseInt(number) * multiplierFactor;
 
+    this.lastRoundScore += score;
     this.gameData[this.currentPlayerCount].roundTotal += score;
     this.gameData[this.currentPlayerCount].score -= score;
     localStorage.setItem('gameData', JSON.stringify(this.gameData));
@@ -165,6 +160,7 @@ export class DartGameSingleOutComponent implements OnInit {
         const number = (multiplier === 'T' || multiplier === 'D') ? score.slice(1) : score;
         const multiplierFactor = (multiplier === 'T') ? 3 : (multiplier === 'D') ? 2 : 1;
 
+        this.lastRoundScore -= parseInt(number) * multiplierFactor;
         currentPlayer.roundTotal -= parseInt(number) * multiplierFactor;
         currentPlayer.score += parseInt(number) * multiplierFactor;
         currentPlayer[darts[filledDartIndex]] = '-';

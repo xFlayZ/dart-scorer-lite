@@ -20,17 +20,7 @@ export class DartGameAroundTheClockComponent implements OnInit {
   @Input() players: string[] = [];
 
   ngOnInit(): void {
-    const savedGameData = localStorage.getItem('gameData');
-    if (savedGameData) {
-      const savedData = localStorage.getItem('gameStartedData');
-      if (savedData) {
-        const { players } = JSON.parse(savedData);
-        this.players = players;
-      }
-      this.gameData = JSON.parse(savedGameData);
-    } else {
-      this.setupGame();
-    }
+    this.setupGame();
   }
 
   setupGame() {
