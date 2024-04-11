@@ -28,4 +28,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Deploy
 
-Run `ng deploy --base-href=https://xflayz.github.io/dart-scorer/`
+Run `ng deploy --base-href=https://xflayz.github.io/dart-scorer/` OR
+Run `ng deploy --base-href=https://dart.flayz.de` OR `npm run flayz-deploy`
