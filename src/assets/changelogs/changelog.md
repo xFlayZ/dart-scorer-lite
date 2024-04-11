@@ -5,6 +5,7 @@
 diese Funktion soll später angepasst werden damit man auch laufende Spiele weiterspielen kann.
 - In den Gamemodes "Single Out" und "Double Out" wurde die Tabelle um "Höchster Wurf" erweitert.
 - "Runden Avarage" heißt nun "Runden Durchschnitt"
+- "Reset"-Button innerhalb der Preset Komponente um Lokal-Storage Daten einfach zu verwerfen.
 
 ## [1.2.0] - 2024-04-11
 - Erster Prototyp für eine Lokal-Storage variante um Daten innerhalb des Computers zu speichern.

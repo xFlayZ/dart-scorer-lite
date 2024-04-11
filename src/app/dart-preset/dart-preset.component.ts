@@ -86,7 +86,7 @@ export class DartPresetComponent implements OnInit {
     localStorage.removeItem('gameData');
     localStorage.removeItem('gameStartedData');
     localStorage.removeItem('players');
-    this.resetButton = false;
+    window.location.reload()
   }
 
 }
