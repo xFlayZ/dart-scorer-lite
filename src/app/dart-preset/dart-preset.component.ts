@@ -13,6 +13,7 @@ export class DartPresetComponent implements OnInit {
   scoreValue: string = '301';
   gameMode: string = 'singleOut';
   errorMessage: string = '';
+  resetButton: boolean = false;
   @Output() gameStarted: EventEmitter<{ players: string[], scoreValue: string, gameMode: string }> = new EventEmitter();
 
   constructor(private router: Router) { }
@@ -21,6 +22,7 @@ export class DartPresetComponent implements OnInit {
     const savedPlayers = localStorage.getItem('players');
     if (savedPlayers) {
       this.players = JSON.parse(savedPlayers);
+      this.resetButton = true;
     }
   }
 
@@ -31,6 +33,7 @@ export class DartPresetComponent implements OnInit {
       this.players.push(playerName);
       this.newPlayerName = ''; 
       this.errorMessage = '';
+      this.resetButton = true;
     }
     localStorage.setItem('players', JSON.stringify(this.players));
   }
@@ -38,6 +41,9 @@ export class DartPresetComponent implements OnInit {
   removePlayer(index: number): void {
     if (index >= 0 && index < this.players.length) {
       this.players.splice(index, 1);
+    }
+    if (this.players.length == 0) {
+      this.resetButton = false;
     }
     localStorage.setItem('players', JSON.stringify(this.players));
   }
@@ -74,6 +80,13 @@ export class DartPresetComponent implements OnInit {
 
   updateGameMode(gameMode: string): void {
     this.gameMode = gameMode;
+  }
+
+  resetData(): void {
+    localStorage.removeItem('gameData');
+    localStorage.removeItem('gameStartedData');
+    localStorage.removeItem('players');
+    this.resetButton = false;
   }
 
 }

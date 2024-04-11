@@ -28,6 +28,14 @@
     >
       Spiel Starten
     </button>
+    <button
+      *ngIf="resetButton"
+      type="submit"
+      class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mt-4 float-right"
+      (click)="resetData()"
+    >
+      Reset
+    </button>
 
     <p class="mt-4">Teilnehmer:</p>
     <ul class="mt-3">
