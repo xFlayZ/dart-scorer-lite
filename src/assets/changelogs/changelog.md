@@ -11,7 +11,7 @@
 ## [1.2.0] - 2024-04-11
 - Hinzugefügt: Changelogs
 - Hinzugefügt: Erster Prototyp für eine Lokal-Storage variante um Daten innerhalb des Computers zu speichern.
-- Hinzugefügt: eue Dart Korregierungsvariante für die Gamemodes "Single Out" und "Double Out".
+- Hinzugefügt: Neue Dart Korregierungsvariante für die Gamemodes "Single Out" und "Double Out".
 - Änderung: Eigener Pfad für alle Gamemodes 
 - Entfernt: "DartComponent"
 
