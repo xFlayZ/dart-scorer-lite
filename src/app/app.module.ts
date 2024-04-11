@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DartComponent } from './dart/dart.component';
 import { DartBoardComponent } from './dart-board/dart-board.component';
 import { DartPresetComponent } from './dart-preset/dart-preset.component';
 import { DartPresetInfoComponent } from './dart-preset-info/dart-preset-info.component';
@@ -19,7 +18,6 @@ import { DartGameDoubleOutComponent } from './dart-game-double-out/dart-game-dou
 @NgModule({
   declarations: [
     AppComponent,
-    DartComponent,
     DartBoardComponent,
     DartPresetComponent,
     DartPresetInfoComponent,

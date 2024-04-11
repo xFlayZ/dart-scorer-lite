@@ -11,6 +11,7 @@ export class DartGameAroundTheClockComponent implements OnInit {
   public gameData: GameDataAroundTheClock[] = [];
   public playerCount = 0;
   public currentPlayerCount = 0;
+  public lastThrownNumber = "-";
   public winnerModalOpen = false;
   public inRound = true;
   public isWinner = false;
@@ -19,10 +20,26 @@ export class DartGameAroundTheClockComponent implements OnInit {
   @Input() players: string[] = [];
 
   ngOnInit(): void {
-    this.setupGame();
+    const savedGameData = localStorage.getItem('gameData');
+    if (savedGameData) {
+      const savedData = localStorage.getItem('gameStartedData');
+      if (savedData) {
+        const { players } = JSON.parse(savedData);
+        this.players = players;
+      }
+      this.gameData = JSON.parse(savedGameData);
+    } else {
+      this.setupGame();
+    }
   }
 
   setupGame() {
+    const savedData = localStorage.getItem('gameStartedData');
+    if (savedData) {
+      const { players } = JSON.parse(savedData);
+      this.players = players;
+    }
+
     const shuffledPlayers = shuffleArray(this.players);
 
     this.gameData = shuffledPlayers.map(player => ({
@@ -61,6 +78,7 @@ export class DartGameAroundTheClockComponent implements OnInit {
     }));
 
     this.playerCount = this.players.length - 1;
+    localStorage.setItem('gameData', JSON.stringify(this.gameData));
   }
 
   onThrownNumberChange(thrownNumber: string) {
@@ -78,6 +96,7 @@ export class DartGameAroundTheClockComponent implements OnInit {
           this.inRound = false;
         }
       }
+      this.lastThrownNumber = thrownNumber;
     }
 
     updatePlayerScore(thrownNumber: string) {
@@ -173,6 +192,7 @@ export class DartGameAroundTheClockComponent implements OnInit {
         this.isWinner = true;
         this.inRound = false;
       }
+      localStorage.setItem('gameData', JSON.stringify(this.gameData));
     }
 
     nextPlayer() {
@@ -190,6 +210,7 @@ export class DartGameAroundTheClockComponent implements OnInit {
         this.currentPlayerCount = (this.playerCount > this.currentPlayerCount) ? this.currentPlayerCount + 1 : 0;
       }
       this.inRound = true;
+      localStorage.setItem('gameData', JSON.stringify(this.gameData));
     }
 
     nextRound() {
@@ -239,6 +260,7 @@ export class DartGameAroundTheClockComponent implements OnInit {
         this.playerCount = this.gameData.length - 1;
       }
       this.legEnd = false;
+      localStorage.setItem('gameData', JSON.stringify(this.gameData));
     }
 
     deleteLastDart() {
@@ -338,6 +360,7 @@ export class DartGameAroundTheClockComponent implements OnInit {
       }
       this.isWinner = false;
       this.inRound = true;
+      localStorage.setItem('gameData', JSON.stringify(this.gameData));
   }
 
   closeWinnerModal() {
@@ -346,9 +369,14 @@ export class DartGameAroundTheClockComponent implements OnInit {
     this.legEnd = true;
     this.winnerModalOpen = false;
     this.isWinner = false;
+    localStorage.setItem('gameData', JSON.stringify(this.gameData));
   }
 
   get sortedGameData() {
     return this.gameData.slice().sort((a, b) => b.wins - a.wins);
+  }
+
+  updateDartValue(dartType: string) {
+  // add updateDartValue later!
   }
 }

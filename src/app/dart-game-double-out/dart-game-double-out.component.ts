@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { shuffleArray } from '../helpers';
 import { GameData } from '../interfaces/game-data.interface';
 import { CheckoutDoubleOutService } from '../services/checkout-double-out.service';
@@ -8,14 +8,16 @@ import { CheckoutDoubleOutService } from '../services/checkout-double-out.servic
   templateUrl: './dart-game-double-out.component.html',
   styleUrl: './dart-game-double-out.component.scss'
 })
-export class DartGameDoubleOutComponent {
+export class DartGameDoubleOutComponent implements OnInit {
   public gameData: GameData[] = [];
   public playerCount = 0;
   public currentPlayerCount = 0;
-  public winnerModalOpen = false;
   public possibleCheckout = '-';
+  public lastThrownNumber = "-";
   public inRound = true;
+  public winnerModalOpen = false;
   public doubleOut = false;
+  public legEnd = false;
 
   @Input() players: string[] = [];
   @Input() scoreValue = '';
@@ -23,7 +25,18 @@ export class DartGameDoubleOutComponent {
   constructor(private checkoutService: CheckoutDoubleOutService) { }
 
   ngOnInit(): void {
-    this.setupGame();
+    const savedGameData = localStorage.getItem('gameData');
+    if (savedGameData) {
+      const savedData = localStorage.getItem('gameStartedData');
+      if (savedData) {
+        const { players,scoreValue } = JSON.parse(savedData);
+        this.players = players;
+        this.scoreValue = scoreValue;
+      }
+      this.gameData = JSON.parse(savedGameData);
+    } else {
+      this.setupGame();
+    }
   }
 
   onThrownNumberChange(thrownNumber: string) {
@@ -42,28 +55,37 @@ export class DartGameDoubleOutComponent {
         }
       }
     }
+    this.lastThrownNumber = thrownNumber;
   }
 
   setupGame() {
-    const scoreValueNum = parseInt(this.scoreValue, 10);
-    const shuffledPlayers = shuffleArray(this.players);
-
-    this.gameData = shuffledPlayers.map(player => ({
-      player: player,
-      score: scoreValueNum,
-      wins: 0,
-      roundAverage: 0,
-      totalAverage: 0,
-      highestRound: 0,
-      firstDart: '-',
-      secondDart: '-',
-      thirdDart: '-',
-      roundTotal: 0,
-      round: 1,
-      game: 0
-    }));
-
-    this.playerCount = this.players.length - 1;
+      const savedData = localStorage.getItem('gameStartedData');
+      if (savedData) {
+        const { players, scoreValue } = JSON.parse(savedData);
+        this.players = players;
+        this.scoreValue = scoreValue;
+      }
+  
+      const scoreValueNum = parseInt(this.scoreValue, 10);
+      const shuffledPlayers = shuffleArray(this.players);
+  
+      this.gameData = shuffledPlayers.map(player => ({
+        player: player,
+        score: scoreValueNum,
+        wins: 0,
+        roundAverage: 0,
+        totalAverage: 0,
+        highestRound: 0,
+        firstDart: '-',
+        secondDart: '-',
+        thirdDart: '-',
+        roundTotal: 0,
+        round: 1,
+        game: 0
+      }));
+  
+      this.playerCount = this.players.length - 1;
+      localStorage.setItem('gameData', JSON.stringify(this.gameData));
   }
 
   nextRound() {
@@ -96,6 +118,8 @@ export class DartGameDoubleOutComponent {
     }
 
     this.doubleOut = false;
+    this.legEnd = false;
+    localStorage.setItem('gameData', JSON.stringify(this.gameData));
   }
 
   nextPlayer() {
@@ -124,6 +148,7 @@ export class DartGameDoubleOutComponent {
     }
     this.calculateCheckoutCurrentPlayer();
     this.inRound = true;
+    localStorage.setItem('gameData', JSON.stringify(this.gameData));
   }
 
   calcScore(thrownNumber: string) {
@@ -139,6 +164,8 @@ export class DartGameDoubleOutComponent {
     if (currentPlayer.score === 0 && multiplierFactor === 2 || currentPlayer.score === 0 && parseInt(number) === 50) {
       this.doubleOut = true;
     }
+
+    localStorage.setItem('gameData', JSON.stringify(this.gameData));
   }
 
   deleteLastDart() {
@@ -156,19 +183,23 @@ export class DartGameDoubleOutComponent {
           this.doubleOut = false;
         }
 
+        currentPlayer.roundTotal -= parseInt(number) * multiplierFactor;
         currentPlayer.score += parseInt(number) * multiplierFactor;
         currentPlayer[darts[filledDartIndex]] = '-';
         this.calculateCheckoutCurrentPlayer();
     }
     this.inRound = true;
+
+    localStorage.setItem('gameData', JSON.stringify(this.gameData));
 }
 
 
   closeWinnerModal() {
     const currentPlayer = this.gameData[this.currentPlayerCount];
     currentPlayer.wins += 1;
-    this.nextRound();
+    this.legEnd = true;
     this.winnerModalOpen = false;
+    localStorage.setItem('gameData', JSON.stringify(this.gameData));
   }
 
   calculateCheckoutCurrentPlayer() {
@@ -189,5 +220,40 @@ export class DartGameDoubleOutComponent {
 
   get sortedGameData() {
     return this.gameData.slice().sort((a, b) => b.wins - a.wins);
+  }
+
+  updateDartValue(dartType: string) {
+    const currentPlayer = this.gameData[this.currentPlayerCount];
+    if (currentPlayer[dartType] != "-") {
+
+      let updateDartValue = "-"
+
+      if (dartType == "firstDart") {
+        updateDartValue = currentPlayer.firstDart
+      } else if (dartType == "secondDart") {
+        updateDartValue = currentPlayer.secondDart
+      } else if (dartType == "thirdDart") {
+        updateDartValue = currentPlayer.thirdDart
+      }
+
+      let multiplier = updateDartValue.charAt(0);
+      let number = (multiplier === 'T' || multiplier === 'D') ? updateDartValue.slice(1) : updateDartValue;
+      let multiplierFactor = (multiplier === 'T') ? 3 : (multiplier === 'D') ? 2 : 1;
+      let score = parseInt(number) * multiplierFactor;
+  
+      currentPlayer.roundTotal -= score;
+      currentPlayer.score += score;
+
+      multiplier = this.lastThrownNumber.charAt(0);
+      number = (multiplier === 'T' || multiplier === 'D') ? this.lastThrownNumber.slice(1) : this.lastThrownNumber;
+      multiplierFactor = (multiplier === 'T') ? 3 : (multiplier === 'D') ? 2 : 1;
+      score = parseInt(number) * multiplierFactor;
+  
+      currentPlayer.roundTotal += score;
+      currentPlayer.score -= score;
+
+      currentPlayer[dartType] = this.lastThrownNumber;
+      localStorage.setItem('gameData', JSON.stringify(this.gameData));
+    }
   }
 }
