@@ -21,8 +21,19 @@
     <!-- player-card -->
     <div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 mt-20">
       <div class="grid grid-cols-12">
-        <div class="col-start-1 col-span-3 font-bold text-5xl text-center">
-          {{ gameData[currentPlayerCount].player }}
+        <div
+          class="col-start-1 col-span-3 font-bold text-5xl text-center flex items-center"
+        >
+          <span>{{ gameData[currentPlayerCount].player }}</span>
+          <i
+            *ngIf="
+              currentPlayerCount !== previousPlayerCount &&
+              gameData[previousPlayerCount].firstDart !== '-' &&
+              !legEnd
+            "
+            class="fa-2xs fa-solid fa-rotate-left text-red-800 ml-1 mb-8"
+            (click)="backToLastPlayer()"
+          ></i>
         </div>
         <div class="col-start-6 font-bold text-5xl text-center">
           {{ gameData[currentPlayerCount].score }}

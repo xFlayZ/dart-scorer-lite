@@ -13,6 +13,7 @@ export class DartGameSingleOutComponent implements OnInit {
   public gameData: GameData[] = [];
   public playerCount = 0;
   public currentPlayerCount = 0;
+  public previousPlayerCount = 0;
   public lastRoundScore = 0;
   public lastThrownNumber = "-";
   public possibleCheckout = '-';
@@ -110,7 +111,7 @@ export class DartGameSingleOutComponent implements OnInit {
   }
 
   nextPlayer() {
-    const currentPlayer = this.gameData[this.currentPlayerCount];
+    let currentPlayer = this.gameData[this.currentPlayerCount];
 
     if (currentPlayer.score === 0) {
       this.winnerModalOpen = true;
@@ -125,16 +126,38 @@ export class DartGameSingleOutComponent implements OnInit {
       }
       this.lastRoundScore = 0;
       currentPlayer.roundAverage = parseFloat((currentPlayer.roundTotal / currentPlayer.round).toFixed(2));
+      currentPlayer.round += 1;
+
+      this.previousPlayerCount = this.currentPlayerCount
+      this.currentPlayerCount = (this.playerCount > this.currentPlayerCount) ? this.currentPlayerCount + 1 : 0;
+
+      currentPlayer = this.gameData[this.currentPlayerCount];
       currentPlayer.firstDart = '-';
       currentPlayer.secondDart = '-';
       currentPlayer.thirdDart = '-';
-      currentPlayer.round += 1;
-
-      this.currentPlayerCount = (this.playerCount > this.currentPlayerCount) ? this.currentPlayerCount + 1 : 0;
     }
     this.calculateCheckoutCurrentPlayer();
     this.inRound = true;
     localStorage.setItem('gameData', JSON.stringify(this.gameData));
+  }
+
+  backToLastPlayer() { 
+    // delete last darts currentPlayer
+    this.deleteLastDart();
+    this.deleteLastDart();
+    this.deleteLastDart();
+
+    // go back to last player
+    this.currentPlayerCount = this.previousPlayerCount
+
+    // get currentPlayer
+    const currentPlayer = this.gameData[this.currentPlayerCount];
+
+    // remove round
+    currentPlayer.round -= 1;
+
+    // set inRound false
+    this.inRound = false;
   }
 
   calcScore(thrownNumber: string) {

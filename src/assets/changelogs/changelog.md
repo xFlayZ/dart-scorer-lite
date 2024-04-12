@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.2] - 2024-04-13
+- Hinzugefügt: In den Gamemodes "Single Out" und "Double Out" kann zum 1. vorherigen Spieler zurückgekehrt werden.
+- Hinzugefügt: "Font Awesome"-Library zum Projekt hinzugefügt für ICONs.
+
 ## [1.2.1] - 2024-04-12
 - Hinzugefügt: In den Gamemodes "Single Out" und "Double Out" wurde die Tabelle um "Höchster Wurf" erweitert.
 - Hinzugefügt: "Reset"-Button innerhalb der "Preset" Komponente um Lokal-Storage Daten einfach zu verwerfen.
