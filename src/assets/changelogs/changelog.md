@@ -2,9 +2,10 @@
 
 ## [1.3.0] - 2024-04-13
 - Info: Anpassung der Versionierung Bugs werden nun als Revision (1.0.R) gezählt und eine Funktion als Nebenversion (1.NV.0)
-- Hinzugefügt: Text-To-Speech für aktueller Spieler und Score.
-- Hinzugefügt: Special Score Sounds.
-- Hinzugefügt: Einstellungen
+- Hinzugefügt: Text-To-Speech für aktueller Spieler und Score. (Aktivierbar über Einstellungen)
+- Hinzugefügt: Special Score Sounds. (Deaktivierbar über Einstellungen)
+- Hinzugefügt: Confetti Animation bei Speziellen Zahlen (Deaktivierbar über Einstellungen)
+- Hinzugefügt: Einstellungen innerhalb der Gamemodes "Single Out" und "Double Out"
 
 ## [1.2.2] - 2024-04-13
 - Hinzugefügt: In den Gamemodes "Single Out" und "Double Out" kann zum 1. vorherigen Spieler zurückgekehrt werden.

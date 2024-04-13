@@ -226,6 +226,25 @@
             </button>
           </div>
           <!-- special score button end -->
+          <!-- animation toggle button -->
+
+          <div class="animations">
+            Konfetti Animation
+            <button (click)="toggleAnimationEnabled()">
+              <span *ngIf="animationEnabled"
+                ><i
+                  class="h-5 w-6 text-black text-center fa-solid fa-toggle-on"
+                ></i
+              ></span>
+
+              <span *ngIf="!animationEnabled"
+                ><i
+                  class="h-5 w-6 text-black text-center fa-solid fa-toggle-off"
+                ></i
+              ></span>
+            </button>
+          </div>
+          <!-- animation toggle button end -->
         </div>
       </div>
     </div>
