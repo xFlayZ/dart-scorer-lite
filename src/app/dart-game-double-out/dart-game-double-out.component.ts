@@ -24,7 +24,7 @@ export class DartGameDoubleOutComponent implements OnInit {
   public doubleOut = false;
   public legEnd = false;
   public isOneActivePlayer = true;
-  public speakToTextEnabled = false;
+  public speakToTextEnabled = true;
   public playSoundEnabled = true;
   public animationEnabled = true;
   public isSettingsModalOpen = false;
@@ -36,6 +36,7 @@ export class DartGameDoubleOutComponent implements OnInit {
   constructor(private checkoutService: CheckoutDoubleOutService, private textToSpeechService: TextToSpeechService, private soundService: SoundService) { }
 
   ngOnInit(): void {
+    this.loadSettingsFromLocalStorage();
     this.setupGame();
   }
 
@@ -343,15 +344,18 @@ export class DartGameDoubleOutComponent implements OnInit {
 
   toggleSpeakToTextEnabled(): void {
     this.speakToTextEnabled = !this.speakToTextEnabled;
-    localStorage.setItem('speakToTextEnabled', JSON.stringify(this.speakToTextEnabled));
+    localStorage.setItem('speakToTextEnabled', String(this.speakToTextEnabled));
   }
 
+  
   togglePlaySoundEnabled(): void {
     this.playSoundEnabled = !this.playSoundEnabled;
+    localStorage.setItem('playSoundEnabled', String(this.playSoundEnabled));
   }
 
   toggleAnimationEnabled(): void {
     this.animationEnabled = !this.animationEnabled;
+    localStorage.setItem('animationEnabled', String(this.animationEnabled));
   }
 
   playSound(sound: string): void {
@@ -405,5 +409,22 @@ export class DartGameDoubleOutComponent implements OnInit {
       // Clear confetti after a certain duration
       setTimeout(() => confetti.reset(), duration);
     }
+  }
+
+  loadSettingsFromLocalStorage(): void {
+    const speakToTextEnabled = localStorage.getItem('speakToTextEnabled');
+    if (speakToTextEnabled !== null) {
+      this.speakToTextEnabled = speakToTextEnabled === 'true';
     }
+  
+    const playSoundEnabled = localStorage.getItem('playSoundEnabled');
+    if (playSoundEnabled !== null) {
+      this.playSoundEnabled = playSoundEnabled === 'true';
+    }
+  
+    const animationEnabled = localStorage.getItem('animationEnabled');
+    if (animationEnabled !== null) {
+      this.animationEnabled = animationEnabled === 'true';
+    }
+  }
 }
