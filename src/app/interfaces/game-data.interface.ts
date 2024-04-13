@@ -11,5 +11,6 @@ export interface GameData {
     roundTotal: number;
     round: number;
     game: number;
-    [key: string]: string | number;
+    isActive: boolean;
+    [key: string]: any;
 }

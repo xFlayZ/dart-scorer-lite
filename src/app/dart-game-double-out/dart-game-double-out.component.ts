@@ -72,7 +72,8 @@ export class DartGameDoubleOutComponent implements OnInit {
         thirdDart: '-',
         roundTotal: 0,
         round: 1,
-        game: 0
+        game: 0,
+        isActive: true,
       }));
   
       this.playerCount = this.players.length - 1;
@@ -111,6 +112,12 @@ export class DartGameDoubleOutComponent implements OnInit {
     this.doubleOut = false;
     this.legEnd = false;
     localStorage.setItem('gameData', JSON.stringify(this.gameData));
+
+    const currentPlayer = this.gameData[this.currentPlayerCount];
+
+    if (!currentPlayer.isActive) {
+      this.nextPlayer()
+    }
   }
 
   nextPlayer() {
@@ -130,16 +137,29 @@ export class DartGameDoubleOutComponent implements OnInit {
         this.deleteLastDart();
       }
       if (this.lastRoundScore > currentPlayer.highestRound) {
-        currentPlayer.highestRound = this.lastRoundScore
+        if (this.lastRoundScore > 180) {
+          currentPlayer.highestRound = 180
+        } else {
+          currentPlayer.highestRound = this.lastRoundScore
+        }
       }
       this.lastRoundScore = 0;
       currentPlayer.roundAverage = parseFloat((currentPlayer.roundTotal / currentPlayer.round).toFixed(2));
-      currentPlayer.round += 1;
 
-      this.previousPlayerCount = this.currentPlayerCount
+      if (currentPlayer.isActive) {
+        currentPlayer.round += 1;
+        this.previousPlayerCount = this.currentPlayerCount
+      }
+
       this.currentPlayerCount = (this.playerCount > this.currentPlayerCount) ? this.currentPlayerCount + 1 : 0;
 
       currentPlayer = this.gameData[this.currentPlayerCount];
+
+      if (!currentPlayer.isActive) {
+        this.nextPlayer()
+
+      }
+
       currentPlayer.firstDart = '-';
       currentPlayer.secondDart = '-';
       currentPlayer.thirdDart = '-';

@@ -2,7 +2,8 @@
 
 ## [1.2.2] - 2024-04-13
 - Hinzugefügt: In den Gamemodes "Single Out" und "Double Out" kann zum 1. vorherigen Spieler zurückgekehrt werden.
-- Hinzugefügt: "Font Awesome"-Library zum Projekt hinzugefügt für ICONs.
+- Hinzugefügt: In den Gamemodes "Single Out" und "Double Out" ist es nun möglich den Aktivitätsstatus des Spielers am Ende einer Runde zu setzen.
+- Fix: Berechnung des Tabellenfeldes "Höchster Wurf" innerhalb der Gamemodes "Single Out" und "Double Out" kann nun nicht mehr größer als 180 sein.
 
 ## [1.2.1] - 2024-04-12
 - Hinzugefügt: In den Gamemodes "Single Out" und "Double Out" wurde die Tabelle um "Höchster Wurf" erweitert.

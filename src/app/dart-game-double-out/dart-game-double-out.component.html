@@ -132,6 +132,7 @@
           <th class="px-4 py-2 text-left">Runde</th>
           <th class="px-4 py-2 text-left">Runden Durchschnitt</th>
           <th class="px-4 py-2 text-left">Höchster Wurf</th>
+          <th class="px-4 py-2 text-left">Aktiv?</th>
         </tr>
       </thead>
       <tbody class="text-gray-700">
@@ -143,6 +144,14 @@
           <td class="px-4 py-2 text-left">{{ player.round }}</td>
           <td class="px-4 py-2 text-left">{{ player.roundAverage }}</td>
           <td class="px-4 py-2 text-left">{{ player.highestRound }}</td>
+          <td class="px-4 py-2 text-left">
+            <div *ngIf="legEnd" class="checkbox">
+              <input type="checkbox" [(ngModel)]="player.isActive" />
+            </div>
+            <div *ngIf="!legEnd" class="active-lable">
+              {{ player.isActive ? "Ja" : "Nein" }}
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
