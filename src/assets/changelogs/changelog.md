@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.0] - 2024-04-13
+- Info: Anpassung der Versionierung Bugs werden nun als Revision (1.0.R) gezählt und eine Funktion als Nebenversion (1.NV.0)
+- Hinzugefügt: Text-To-Speech für den Gamemodus "Single-Out" (Testphase)
+
 ## [1.2.2] - 2024-04-13
 - Hinzugefügt: In den Gamemodes "Single Out" und "Double Out" kann zum 1. vorherigen Spieler zurückgekehrt werden.
 - Hinzugefügt: In den Gamemodes "Single Out" und "Double Out" ist es nun möglich den Aktivitätsstatus des Spielers am Ende einer Runde zu setzen.

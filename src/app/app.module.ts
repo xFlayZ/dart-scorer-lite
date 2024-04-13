@@ -14,6 +14,7 @@ import { FooterComponent } from './footer/footer.component';
 import { VideoModalComponent } from './video-modal/video-modal.component';
 import { DartGameAroundTheClockComponent } from './dart-game-around-the-clock/dart-game-around-the-clock.component';
 import { DartGameDoubleOutComponent } from './dart-game-double-out/dart-game-double-out.component';
+import { TextToSpeechService } from './services/text-to-speech.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { DartGameDoubleOutComponent } from './dart-game-double-out/dart-game-dou
     AppRoutingModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [TextToSpeechService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

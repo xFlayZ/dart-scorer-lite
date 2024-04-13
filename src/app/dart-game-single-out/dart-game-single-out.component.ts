@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CheckoutService } from '../services/checkout.service';
 import { GameData } from '../interfaces/game-data.interface';
 import { shuffleArray } from '../helpers';
+import { TextToSpeechService } from '../services/text-to-speech.service';
 
 @Component({
   selector: 'app-dart-game-single-out',
@@ -21,11 +22,12 @@ export class DartGameSingleOutComponent implements OnInit {
   public winnerModalOpen = false;
   public legEnd = false;
   public isOneActivePlayer = true;
+  public speakToTextEnabled = false;
 
   @Input() players: string[] = [];
   @Input() scoreValue = '';
 
-  constructor(private checkoutService: CheckoutService) { }
+  constructor(private checkoutService: CheckoutService, private textToSpeechService: TextToSpeechService) { }
 
   ngOnInit(): void {
     this.setupGame();
@@ -79,6 +81,10 @@ export class DartGameSingleOutComponent implements OnInit {
 
     this.playerCount = this.players.length - 1;
     localStorage.setItem('gameData', JSON.stringify(this.gameData));
+
+    if (this.speakToTextEnabled) {
+      this.speakText();
+    }
   }
 
   nextRound() {
@@ -116,6 +122,10 @@ export class DartGameSingleOutComponent implements OnInit {
 
     if (!currentPlayer.isActive) {
       this.nextPlayer()
+    }
+
+    if (this.speakToTextEnabled) {
+      this.speakText();
     }
   }
 
@@ -157,8 +167,12 @@ export class DartGameSingleOutComponent implements OnInit {
       currentPlayer.firstDart = '-';
       currentPlayer.secondDart = '-';
       currentPlayer.thirdDart = '-';
+
     }
     this.calculateCheckoutCurrentPlayer();
+    if (this.speakToTextEnabled) {
+      this.speakText();
+    }
     this.inRound = true;
     localStorage.setItem('gameData', JSON.stringify(this.gameData));
   }
@@ -282,5 +296,27 @@ export class DartGameSingleOutComponent implements OnInit {
 
   checkIfOneActivePlayer() {
     this.isOneActivePlayer = this.gameData.some(player => player.isActive);
+  }
+
+  speakText(): void {
+    const currentPlayer = this.gameData[this.currentPlayerCount];
+
+    let possibleCheckoutText = ``
+    if (this.possibleCheckout != "-") {
+      possibleCheckoutText = `Möglicher Checkout: ${this.possibleCheckout}`
+    }
+
+    let textToSpeak = `Aktueller Spieler: ${currentPlayer.player} Verbleibender Score: ${currentPlayer.score} ${possibleCheckoutText}`;
+
+    if (currentPlayer.score == 0) {
+      textToSpeak = `${currentPlayer.player} hat die Runde Gewonnen!`
+    }
+
+    this.textToSpeechService.speak(textToSpeak);
+  }
+
+  toggleSpeakToTextEnabled(): void {
+    this.speakToTextEnabled = !this.speakToTextEnabled;
+    localStorage.setItem('speakToTextEnabled', JSON.stringify(this.speakToTextEnabled));
   }
 }
