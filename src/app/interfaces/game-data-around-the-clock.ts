@@ -31,5 +31,6 @@ export interface GameDataAroundTheClock {
     trysForEighteen: number;
     trysForNineteen: number;
     trysForTwenty: number;
-    [key: string]: string | number;
+    isActive: boolean;
+    [key: string]: any;
 }

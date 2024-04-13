@@ -16,6 +16,19 @@
   </svg>
 </a>
 <!-- back button end -->
+<!-- audio button -->
+<button
+  class="absolute top-0 right-0 m-4 p-4 rounded-full shadow-md bg-white"
+  (click)="toggleSpeakToTextEnabled()"
+>
+  <span *ngIf="speakToTextEnabled"
+    ><i class="h-5 w-6 text-black text-center fas fa-volume-up"></i
+  ></span>
+  <span *ngIf="!speakToTextEnabled"
+    ><i class="h-5 w-6 text-black text-center fas fa-volume-mute"></i
+  ></span>
+</button>
+<!-- audio button end -->
 <div class="grid grid-cols-2 gap-4 mt-3 ml-3">
   <div>
     <!-- player-card -->

@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { shuffleArray } from '../helpers';
 import { GameData } from '../interfaces/game-data.interface';
 import { CheckoutDoubleOutService } from '../services/checkout-double-out.service';
+import { TextToSpeechService } from '../services/text-to-speech.service';
+import { SoundService } from '../services/sound.service';
 
 @Component({
   selector: 'app-dart-game-double-out',
@@ -21,11 +23,15 @@ export class DartGameDoubleOutComponent implements OnInit {
   public doubleOut = false;
   public legEnd = false;
   public isOneActivePlayer = true;
+  public speakToTextEnabled = false;
+  public playSoundEnabled = true;
+  public isSettingsModalOpen = false;
 
+  closeModalEvent = new EventEmitter<void>();
   @Input() players: string[] = [];
   @Input() scoreValue = '';
 
-  constructor(private checkoutService: CheckoutDoubleOutService) { }
+  constructor(private checkoutService: CheckoutDoubleOutService, private textToSpeechService: TextToSpeechService, private soundService: SoundService) { }
 
   ngOnInit(): void {
     this.setupGame();
@@ -41,6 +47,8 @@ export class DartGameDoubleOutComponent implements OnInit {
         this.calcScore(thrownNumber);
         currentPlayer[darts[emptyDartIndex]] = thrownNumber;
         this.calculateCheckoutCurrentPlayer();
+
+      this.specialThrownSounds(thrownNumber);
         
         if (emptyDartIndex === 2 || currentPlayer.score <= 0) {
           this.inRound = false;
@@ -79,6 +87,10 @@ export class DartGameDoubleOutComponent implements OnInit {
   
       this.playerCount = this.players.length - 1;
       localStorage.setItem('gameData', JSON.stringify(this.gameData));
+
+      if (this.speakToTextEnabled) {
+        this.speakText();
+      }
   }
 
   nextRound() {
@@ -119,6 +131,10 @@ export class DartGameDoubleOutComponent implements OnInit {
     if (!currentPlayer.isActive) {
       this.nextPlayer()
     }
+
+    if (this.speakToTextEnabled && currentPlayer.isActive) {
+      this.speakText();
+    }
   }
 
   nextPlayer() {
@@ -126,6 +142,7 @@ export class DartGameDoubleOutComponent implements OnInit {
 
     if (currentPlayer.score === 0 && this.doubleOut) {
       this.winnerModalOpen = true;
+      this.playSound("victory");
     } else {
       if (currentPlayer.score <= 1) {
         this.deleteLastDart();
@@ -166,6 +183,9 @@ export class DartGameDoubleOutComponent implements OnInit {
       currentPlayer.thirdDart = '-';
     }
     this.calculateCheckoutCurrentPlayer();
+    if (this.speakToTextEnabled && currentPlayer.isActive) {
+      this.speakText();
+    }
     this.inRound = true;
     localStorage.setItem('gameData', JSON.stringify(this.gameData));
   }
@@ -299,5 +319,65 @@ export class DartGameDoubleOutComponent implements OnInit {
 
   checkIfOneActivePlayer() {
     this.isOneActivePlayer = this.gameData.some(player => player.isActive);
+  }
+
+  speakText(): void {
+    const currentPlayer = this.gameData[this.currentPlayerCount];
+
+    let possibleCheckoutText = ``
+    if (this.possibleCheckout != "-") {
+      possibleCheckoutText = `Möglicher Checkout: ${this.possibleCheckout}`
+    }
+
+    let textToSpeak = `Aktueller Spieler: ${currentPlayer.player} Verbleibender Score: ${currentPlayer.score} ${possibleCheckoutText}`;
+
+    if (currentPlayer.score == 0) {
+      textToSpeak = `${currentPlayer.player} hat die Runde Gewonnen!`
+    }
+
+    this.textToSpeechService.speak(textToSpeak);
+  }
+
+  toggleSpeakToTextEnabled(): void {
+    this.speakToTextEnabled = !this.speakToTextEnabled;
+    localStorage.setItem('speakToTextEnabled', JSON.stringify(this.speakToTextEnabled));
+  }
+
+  togglePlaySoundEnabled(): void {
+    this.playSoundEnabled = !this.playSoundEnabled;
+  }
+
+  playSound(sound: string): void {
+    if (this.playSoundEnabled) {
+      this.soundService.stopSound();
+      this.soundService.playSound(`assets/sounds/${sound}.mp3`);
+    }
+  }
+
+  specialThrownSounds(thrownNumber: string) {
+    const currentPlayer = this.gameData[this.currentPlayerCount];
+    if (this.lastRoundScore == 180 && currentPlayer.thirdDart != "-") {
+      this.playSound("score-180");
+    } else if (this.lastRoundScore >= 100 && currentPlayer.thirdDart != "-") {
+      this.playSound("nice-shot");
+    } else if (this.lastRoundScore == 0 && currentPlayer.thirdDart != "-") {
+      this.playSound("fail")
+    }
+
+      if (thrownNumber == "50") {
+        this.playSound("clap");
+      }
+      if (thrownNumber == "T20" && currentPlayer.thirdDart == "-") {
+        this.playSound("clap");
+      }
+  }
+
+  openSettingsModal() {
+    this.isSettingsModalOpen = true;
+  }
+
+  closeModal() {
+    this.closeModalEvent.emit();
+    this.isSettingsModalOpen = false;
   }
 }

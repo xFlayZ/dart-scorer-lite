@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { CheckoutService } from '../services/checkout.service';
 import { GameData } from '../interfaces/game-data.interface';
 import { shuffleArray } from '../helpers';
 import { TextToSpeechService } from '../services/text-to-speech.service';
+import { SoundService } from '../services/sound.service';
 
 @Component({
   selector: 'app-dart-game-single-out',
@@ -23,11 +24,14 @@ export class DartGameSingleOutComponent implements OnInit {
   public legEnd = false;
   public isOneActivePlayer = true;
   public speakToTextEnabled = false;
+  public playSoundEnabled = true;
+  public isSettingsModalOpen = false;
 
+  closeModalEvent = new EventEmitter<void>();
   @Input() players: string[] = [];
   @Input() scoreValue = '';
 
-  constructor(private checkoutService: CheckoutService, private textToSpeechService: TextToSpeechService) { }
+  constructor(private checkoutService: CheckoutService, private textToSpeechService: TextToSpeechService, private soundService: SoundService) { }
 
   ngOnInit(): void {
     this.setupGame();
@@ -43,6 +47,8 @@ export class DartGameSingleOutComponent implements OnInit {
         this.calcScore(thrownNumber);
         currentPlayer[darts[emptyDartIndex]] = thrownNumber;
         this.calculateCheckoutCurrentPlayer();
+
+        this.specialThrownSounds(thrownNumber);
         
         if (emptyDartIndex === 2 || currentPlayer.score <= 0) {
           this.inRound = false;
@@ -124,7 +130,7 @@ export class DartGameSingleOutComponent implements OnInit {
       this.nextPlayer()
     }
 
-    if (this.speakToTextEnabled) {
+    if (this.speakToTextEnabled && currentPlayer.isActive) {
       this.speakText();
     }
   }
@@ -134,6 +140,7 @@ export class DartGameSingleOutComponent implements OnInit {
 
     if (currentPlayer.score === 0) {
       this.winnerModalOpen = true;
+      this.playSound("victory");
     } else {
       if (currentPlayer.score < 0) {
         this.deleteLastDart();
@@ -170,7 +177,7 @@ export class DartGameSingleOutComponent implements OnInit {
 
     }
     this.calculateCheckoutCurrentPlayer();
-    if (this.speakToTextEnabled) {
+    if (this.speakToTextEnabled && currentPlayer.isActive) {
       this.speakText();
     }
     this.inRound = true;
@@ -318,5 +325,44 @@ export class DartGameSingleOutComponent implements OnInit {
   toggleSpeakToTextEnabled(): void {
     this.speakToTextEnabled = !this.speakToTextEnabled;
     localStorage.setItem('speakToTextEnabled', JSON.stringify(this.speakToTextEnabled));
+  }
+
+  
+  togglePlaySoundEnabled(): void {
+    this.playSoundEnabled = !this.playSoundEnabled;
+  }
+
+  playSound(sound: string): void {
+    if (this.playSoundEnabled) {
+      this.soundService.stopSound();
+      this.soundService.playSound(`assets/sounds/${sound}.mp3`);
+    }
+  }
+
+  specialThrownSounds(thrownNumber: string) {
+    const currentPlayer = this.gameData[this.currentPlayerCount];
+    if (this.lastRoundScore == 180 && currentPlayer.thirdDart != "-") {
+      this.playSound("score-180");
+    } else if (this.lastRoundScore >= 100 && currentPlayer.thirdDart != "-") {
+      this.playSound("nice-shot");
+    } else if (this.lastRoundScore == 0 && currentPlayer.thirdDart != "-") {
+      this.playSound("fail")
+    }
+
+      if (thrownNumber == "50") {
+        this.playSound("clap");
+      }
+      if (thrownNumber == "T20" && currentPlayer.thirdDart == "-") {
+        this.playSound("clap");
+      }
+  }
+
+  openSettingsModal() {
+    this.isSettingsModalOpen = true;
+  }
+
+  closeModal() {
+    this.closeModalEvent.emit();
+    this.isSettingsModalOpen = false;
   }
 }

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { shuffleArray } from '../helpers';
 import { GameDataAroundTheClock } from '../interfaces/game-data-around-the-clock';
+import { TextToSpeechService } from '../services/text-to-speech.service';
 
 @Component({
   selector: 'app-dart-game-around-the-clock',
@@ -16,8 +17,12 @@ export class DartGameAroundTheClockComponent implements OnInit {
   public inRound = true;
   public isWinner = false;
   public legEnd = false;
+  public isOneActivePlayer = true;
+  public speakToTextEnabled = false;
 
   @Input() players: string[] = [];
+
+  constructor(private textToSpeechService: TextToSpeechService) {}
 
   ngOnInit(): void {
     this.setupGame();
@@ -65,10 +70,15 @@ export class DartGameAroundTheClockComponent implements OnInit {
       trysForEighteen: 0,
       trysForNineteen: 0,
       trysForTwenty: 0,
+      isActive: true,
     }));
 
     this.playerCount = this.players.length - 1;
     localStorage.setItem('gameData', JSON.stringify(this.gameData));
+
+    if (this.speakToTextEnabled) {
+      this.speakText();
+    }
   }
 
   onThrownNumberChange(thrownNumber: string) {
@@ -199,6 +209,9 @@ export class DartGameAroundTheClockComponent implements OnInit {
 
         this.currentPlayerCount = (this.playerCount > this.currentPlayerCount) ? this.currentPlayerCount + 1 : 0;
       }
+      if (this.speakToTextEnabled) {
+        this.speakText();
+      }
       this.inRound = true;
       localStorage.setItem('gameData', JSON.stringify(this.gameData));
     }
@@ -251,6 +264,10 @@ export class DartGameAroundTheClockComponent implements OnInit {
       }
       this.legEnd = false;
       localStorage.setItem('gameData', JSON.stringify(this.gameData));
+
+      if (this.speakToTextEnabled) {
+        this.speakText();
+      }
     }
 
     deleteLastDart() {
@@ -368,5 +385,26 @@ export class DartGameAroundTheClockComponent implements OnInit {
 
   updateDartValue(dartType: string) {
   // add updateDartValue later!
+  }
+
+  checkIfOneActivePlayer() {
+    this.isOneActivePlayer = this.gameData.some(player => player.isActive);
+  }
+
+  speakText(): void {
+    const currentPlayer = this.gameData[this.currentPlayerCount];
+
+    let textToSpeak = `Aktueller Spieler: ${currentPlayer.player} Aktueller Wert: ${currentPlayer.score}`;
+
+    if (this.isWinner) {
+      textToSpeak = `${currentPlayer.player} hat die Runde Gewonnen!`
+    }
+
+    this.textToSpeechService.speak(textToSpeak);
+  }
+
+  toggleSpeakToTextEnabled(): void {
+    this.speakToTextEnabled = !this.speakToTextEnabled;
+    localStorage.setItem('speakToTextEnabled', JSON.stringify(this.speakToTextEnabled));
   }
 }
