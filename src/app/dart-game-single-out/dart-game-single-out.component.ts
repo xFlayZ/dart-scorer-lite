@@ -353,6 +353,9 @@ export class DartGameSingleOutComponent implements OnInit {
 
   specialThrownSounds(thrownNumber: string) {
     const currentPlayer = this.gameData[this.currentPlayerCount];
+    if (currentPlayer.score < 0) {
+      this.playSound("fail")
+    } else {
     if (this.lastRoundScore == 180 && currentPlayer.thirdDart != "-") {
       this.playSound("score-180");
       this.celebrate(500);
@@ -371,9 +374,8 @@ export class DartGameSingleOutComponent implements OnInit {
         this.playSound("clap");
         this.celebrate(125);
       }
-      if (currentPlayer.score < 0) {
-        this.playSound("fail")
-      }
+    }
+      
   }
 
   openSettingsModal() {
