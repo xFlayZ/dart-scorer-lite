@@ -6,6 +6,7 @@
 - Hinzugefügt: Special Score Sounds. (Deaktivierbar über Einstellungen)
 - Hinzugefügt: Konfetti Animation bei Speziellen Zahlen (Deaktivierbar über Einstellungen)
 - Hinzugefügt: Einstellungen innerhalb der Gamemodes "Single Out" und "Double Out"
+- Änderung: Der "Title" im Tab-Fenster wird nun dynmaisch anhand der Route generiert.
 
 ## [1.2.2] - 2024-04-13
 - Hinzugefügt: In den Gamemodes "Single Out" und "Double Out" kann zum 1. vorherigen Spieler zurückgekehrt werden.
