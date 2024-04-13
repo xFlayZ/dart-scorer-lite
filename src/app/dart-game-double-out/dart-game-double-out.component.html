@@ -96,18 +96,20 @@
           Letzten Dart löschen
         </button>
       </div>
-      <div *ngIf="legEnd" class="buttons-after-round">
+      <div *ngIf="legEnd" class="buttons-after-round text-center">
         <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           (click)="nextRound()"
           [ngClass]="{
-            'opacity-50 cursor-not-allowed':
-              gameData[currentPlayerCount].firstDart === '-'
+            'opacity-50 cursor-not-allowed': !isOneActivePlayer
           }"
-          [disabled]="gameData[currentPlayerCount].firstDart === '-'"
+          [disabled]="!isOneActivePlayer"
         >
           Neue Runde
         </button>
+        <div *ngIf="!isOneActivePlayer" class="text-red-800 mt-2">
+          <strong>Mindestens eine Spieler muss aktiv sein!</strong>
+        </div>
       </div>
     </div>
 
@@ -146,7 +148,11 @@
           <td class="px-4 py-2 text-left">{{ player.highestRound }}</td>
           <td class="px-4 py-2 text-left">
             <div *ngIf="legEnd" class="checkbox">
-              <input type="checkbox" [(ngModel)]="player.isActive" />
+              <input
+                type="checkbox"
+                [(ngModel)]="player.isActive"
+                (change)="checkIfOneActivePlayer()"
+              />
             </div>
             <div *ngIf="!legEnd" class="active-lable">
               {{ player.isActive ? "Ja" : "Nein" }}

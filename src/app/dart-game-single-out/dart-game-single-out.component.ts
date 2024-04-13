@@ -20,6 +20,7 @@ export class DartGameSingleOutComponent implements OnInit {
   public inRound = true;
   public winnerModalOpen = false;
   public legEnd = false;
+  public isOneActivePlayer = true;
 
   @Input() players: string[] = [];
   @Input() scoreValue = '';
@@ -277,5 +278,9 @@ export class DartGameSingleOutComponent implements OnInit {
       currentPlayer[dartType] = this.lastThrownNumber;
       localStorage.setItem('gameData', JSON.stringify(this.gameData));
     }
+  }
+
+  checkIfOneActivePlayer() {
+    this.isOneActivePlayer = this.gameData.some(player => player.isActive);
   }
 }

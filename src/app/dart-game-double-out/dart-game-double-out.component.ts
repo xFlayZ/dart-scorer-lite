@@ -20,6 +20,7 @@ export class DartGameDoubleOutComponent implements OnInit {
   public winnerModalOpen = false;
   public doubleOut = false;
   public legEnd = false;
+  public isOneActivePlayer = true;
 
   @Input() players: string[] = [];
   @Input() scoreValue = '';
@@ -294,5 +295,9 @@ export class DartGameDoubleOutComponent implements OnInit {
       currentPlayer[dartType] = this.lastThrownNumber;
       localStorage.setItem('gameData', JSON.stringify(this.gameData));
     }
+  }
+
+  checkIfOneActivePlayer() {
+    this.isOneActivePlayer = this.gameData.some(player => player.isActive);
   }
 }
