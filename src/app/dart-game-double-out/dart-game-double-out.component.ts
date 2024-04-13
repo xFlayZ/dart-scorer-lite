@@ -123,6 +123,7 @@ export class DartGameDoubleOutComponent implements OnInit {
       }
 
       this.playerCount = this.gameData.length - 1;
+      this.lastRoundScore = 0;
     }
 
     this.doubleOut = false;
@@ -384,6 +385,10 @@ export class DartGameDoubleOutComponent implements OnInit {
       if (thrownNumber == "T20" && currentPlayer.thirdDart == "-") {
         this.playSound("clap");
         this.celebrate(125);
+      }
+
+      if (currentPlayer.score < 0) {
+        this.playSound("fail")
       }
   }
 

@@ -136,6 +136,8 @@ export class DartGameSingleOutComponent implements OnInit {
     if (this.speakToTextEnabled && currentPlayer.isActive) {
       this.speakText();
     }
+
+    this.lastRoundScore = 0;
   }
 
   nextPlayer() {
@@ -368,6 +370,9 @@ export class DartGameSingleOutComponent implements OnInit {
       if (thrownNumber == "T20" && currentPlayer.thirdDart == "-") {
         this.playSound("clap");
         this.celebrate(125);
+      }
+      if (currentPlayer.score < 0) {
+        this.playSound("fail")
       }
   }
 
