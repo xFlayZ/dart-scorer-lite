@@ -20,27 +20,18 @@ export class VoiceToTextService {
   startListening(codeword: string, callback: (transcript: string) => void): void {
     // Überprüfen, ob die Web Speech API verfügbar ist
     if (this.recognition) {
-      let codewordDetected = false; // Flag, um zu überprüfen, ob das Codewort bereits erkannt wurde
-  
       try {
         this.recognition.onresult = (event: any) => {
           const results = event.results;
-          const transcript = results[results.length - 1][0].transcript;
-          console.log('Erkannter Text:', transcript);
-  
-          if (!codewordDetected && transcript.includes(codeword)) {
-            console.log("Codewort wurde gesagt:", codeword);
-            codewordDetected = true; // Setze die Flag auf true, um anzuzeigen, dass das Codewort erkannt wurde
-          }
-  
-          if (codewordDetected) {
-            if (transcript === "Treffer") {
-              console.log("T20");
-              codewordDetected = false;
-            }
+          const transcripts = Array.from(results).map((result: any) => result[0].transcript);
+          const latestTranscript = transcripts.pop(); // Aktuellsten erkannten Text abrufen
+          console.log('Erkannter Text:', latestTranscript);
+
+          if (latestTranscript.includes(codeword)) {
+            callback(latestTranscript); // Aufruf des Callbacks mit dem erkannten Transkript
           }
         };
-  
+
         this.recognition.start();
       } catch (error) {
         console.error('Fehler beim Starten der Spracherkennung:', error);

@@ -39,9 +39,20 @@ export class DartGameSingleOutComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if(this.voiceToTextEnabled) {
-      this.voiceToTextService.startListening("Treffer", (transcript: string) => {});
-    }
+    this.voiceToTextService.startListening("", (transcript: string) => {
+      const cleanedTranscript = transcript.trim().toLowerCase();
+      if (cleanedTranscript === "test") {
+        console.log("test wurde erkannt");
+      }
+      if (cleanedTranscript === "treffer t20") {
+        this.onThrownNumberChange("T20")
+      }
+      if (cleanedTranscript === "treffer") {
+        console.log("treffer wurde erkannt");
+      }
+    });
+    
+    
 
     this.loadSettingsFromLocalStorage();
     this.setupGame();
