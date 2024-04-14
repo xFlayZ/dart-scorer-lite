@@ -11,7 +11,6 @@ import { FormsModule } from '@angular/forms';
 import { DartGameSingleOutComponent } from './dart-game-single-out/dart-game-single-out.component';
 import { DartWinnerModalComponent } from './dart-winner-modal/dart-winner-modal.component';
 import { FooterComponent } from './footer/footer.component';
-import { VideoModalComponent } from './video-modal/video-modal.component';
 import { DartGameAroundTheClockComponent } from './dart-game-around-the-clock/dart-game-around-the-clock.component';
 import { DartGameDoubleOutComponent } from './dart-game-double-out/dart-game-double-out.component';
 import { TextToSpeechService } from './services/text-to-speech.service';
@@ -29,7 +28,6 @@ import { VoiceToTextService } from './services/voice-to-text.service';
     DartGameSingleOutComponent,
     DartWinnerModalComponent,
     FooterComponent,
-    VideoModalComponent,
     DartGameAroundTheClockComponent,
     DartGameDoubleOutComponent,
     ChooseSongModalComponent
