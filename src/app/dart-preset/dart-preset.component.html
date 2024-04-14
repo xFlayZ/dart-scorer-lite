@@ -40,12 +40,18 @@
     <p class="mt-4">Teilnehmer:</p>
     <ul class="mt-3">
       <li *ngFor="let player of players" class="flex items-center">
-        {{ player }}
-        <span
-          class="delete-player ml-2 cursor-pointer"
-          (click)="removePlayer(players.indexOf(player))"
-        >
-          <span class="text-red-500">X</span>
+        {{ player.name }}
+        <span class="delete-player ml-2 cursor-pointer">
+          <app-choose-song-modal #songModal></app-choose-song-modal>
+
+          <i
+            class="fa-solid fa-music text-blue-500 mr-2"
+            (click)="openModal(players.indexOf(player))"
+          ></i>
+          <i
+            class="fa-regular fa-trash-can text-red-500"
+            (click)="removePlayer(players.indexOf(player))"
+          ></i>
         </span>
       </li>
     </ul>

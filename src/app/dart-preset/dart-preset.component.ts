@@ -1,5 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ChooseSongModalComponent } from '../choose-song-modal/choose-song-modal.component';
+
+interface Player {
+  name: string;
+  winnerSong: string;
+}
 
 @Component({
   selector: 'app-dart-preset',
@@ -7,14 +13,15 @@ import { Router } from '@angular/router';
   styleUrl: './dart-preset.component.scss'
 })
 export class DartPresetComponent implements OnInit {
-  players: string[] = [];
+  players: Player[] = [];
   gameSettings: string[] = [];
   newPlayerName: string = '';
   scoreValue: string = '301';
   gameMode: string = 'singleOut';
   errorMessage: string = '';
   resetButton: boolean = false;
-  @Output() gameStarted: EventEmitter<{ players: string[], scoreValue: string, gameMode: string }> = new EventEmitter();
+  @Output() gameStarted: EventEmitter<{ players: Player[], scoreValue: string, gameMode: string }> = new EventEmitter();
+  @ViewChild(ChooseSongModalComponent) songModal!: ChooseSongModalComponent;
 
   constructor(private router: Router) { }
 
@@ -27,10 +34,14 @@ export class DartPresetComponent implements OnInit {
   }
 
   addPlayer(): void {
+    const savedPlayers = localStorage.getItem('players');
+    if (savedPlayers) {
+      this.players = JSON.parse(savedPlayers);
+    }
     let playerName = this.newPlayerName.trim();
     if (playerName !== '') {
       playerName = playerName.charAt(0).toUpperCase() + playerName.slice(1);
-      this.players.push(playerName);
+      this.players.push({ name: playerName, winnerSong: 'default' });
       this.newPlayerName = ''; 
       this.errorMessage = '';
       this.resetButton = true;
@@ -56,7 +67,7 @@ export class DartPresetComponent implements OnInit {
   
       this.players.forEach(player => {
         const listItem = document.createElement('li'); 
-        listItem.textContent = player; 
+        listItem.textContent = player.name; 
         participantsList.appendChild(listItem);
       });
     } else {
@@ -65,6 +76,10 @@ export class DartPresetComponent implements OnInit {
   }
 
   startGame(): void {
+    const savedPlayers = localStorage.getItem('players');
+    if (savedPlayers) {
+      this.players = JSON.parse(savedPlayers);
+    }
     if(this.players.length > 0) {
       localStorage.setItem('gameStartedData', JSON.stringify({ players: this.players, scoreValue: this.scoreValue, gameMode: this.gameMode }));
       localStorage.removeItem('gameData');
@@ -90,4 +105,9 @@ export class DartPresetComponent implements OnInit {
     window.location.reload()
   }
 
+  openModal(index: number): void {
+    if (this.songModal) {
+      this.songModal.openModal(index);
+    }
+  }
 }

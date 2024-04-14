@@ -12,5 +12,6 @@ export interface GameData {
     round: number;
     game: number;
     isActive: boolean;
+    winnerSong: string;
     [key: string]: any;
 }

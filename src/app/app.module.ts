@@ -16,6 +16,7 @@ import { DartGameAroundTheClockComponent } from './dart-game-around-the-clock/da
 import { DartGameDoubleOutComponent } from './dart-game-double-out/dart-game-double-out.component';
 import { TextToSpeechService } from './services/text-to-speech.service';
 import { SoundService } from './services/sound.service';
+import { ChooseSongModalComponent } from './choose-song-modal/choose-song-modal.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SoundService } from './services/sound.service';
     FooterComponent,
     VideoModalComponent,
     DartGameAroundTheClockComponent,
-    DartGameDoubleOutComponent
+    DartGameDoubleOutComponent,
+    ChooseSongModalComponent
   ],
   imports: [
     BrowserModule,

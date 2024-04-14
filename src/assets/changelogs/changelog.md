@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.4.0] - 2024-04-14
+- Hinzugefügt: Am Ende einer Runde wird ein Gewinner-Song abgespielt, dieser kann innerhalb der Voreinstellungen aus einer Liste von Songs vorgehört und ausgewählt werden.
+
 ## [1.3.0] - 2024-04-13
 - Info: Anpassung der Versionierung Bugs werden nun als Revision (1.0.R) gezählt und eine Funktion als Nebenversion (1.NV.0)
 - Hinzugefügt: Text-To-Speech für aktueller Spieler und Score. (Aktivierbar über Einstellungen)

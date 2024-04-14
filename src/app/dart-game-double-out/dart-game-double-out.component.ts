@@ -73,7 +73,7 @@ export class DartGameDoubleOutComponent implements OnInit {
       const shuffledPlayers = shuffleArray(this.players);
   
       this.gameData = shuffledPlayers.map(player => ({
-        player: player,
+        player: player.name,
         score: scoreValueNum,
         wins: 0,
         roundAverage: 0,
@@ -86,6 +86,7 @@ export class DartGameDoubleOutComponent implements OnInit {
         round: 1,
         game: 0,
         isActive: true,
+        winnerSong: player.winnerSong
       }));
   
       this.playerCount = this.players.length - 1;
@@ -147,7 +148,7 @@ export class DartGameDoubleOutComponent implements OnInit {
     if (currentPlayer.score === 0 && this.doubleOut) {
       this.winnerModalOpen = true;
       this.celebrate(500);
-      this.playSound("victory");
+      this.playSound("victory", currentPlayer.winnerSong);
     } else {
       if (currentPlayer.score <= 1) {
         this.deleteLastDart();
@@ -359,34 +360,34 @@ export class DartGameDoubleOutComponent implements OnInit {
     localStorage.setItem('animationEnabled', String(this.animationEnabled));
   }
 
-  playSound(sound: string): void {
+  playSound(path: string, sound: string): void {
     if (this.playSoundEnabled) {
       this.soundService.stopSound();
-      this.soundService.playSound(`assets/sounds/${sound}.mp3`);
+      this.soundService.playSound(`assets/sounds/${path}/${sound}.mp3`);
     }
   }
 
   specialThrownSounds(thrownNumber: string) {
     const currentPlayer = this.gameData[this.currentPlayerCount];
     if (currentPlayer.score < 0) {
-      this.playSound("fail")
+      this.playSound("special", "fail")
     } else {
     if (this.lastRoundScore == 180 && currentPlayer.thirdDart != "-") {
-      this.playSound("score-180");
+      this.playSound("special", "score-180");
       this.celebrate(500);
     } else if (this.lastRoundScore >= 100 && currentPlayer.thirdDart != "-") {
-      this.playSound("nice-shot");
+      this.playSound("special", "nice-shot");
       this.celebrate(125);
     } else if (this.lastRoundScore == 0 && currentPlayer.thirdDart != "-") {
-      this.playSound("fail")
+      this.playSound("special", "fail")
     }
 
       if (thrownNumber == "50") {
-        this.playSound("clap");
+        this.playSound("special", "clap");
         this.celebrate(125);
       }
       if (thrownNumber == "T20" && currentPlayer.thirdDart == "-") {
-        this.playSound("clap");
+        this.playSound("special", "clap");
         this.celebrate(125);
       }
     }
