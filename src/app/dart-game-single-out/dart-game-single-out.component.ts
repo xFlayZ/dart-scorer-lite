@@ -5,6 +5,7 @@ import { shuffleArray } from '../helpers';
 import { TextToSpeechService } from '../services/text-to-speech.service';
 import { SoundService } from '../services/sound.service';
 import confetti from 'canvas-confetti';
+import { VoiceToTextService } from '../services/voice-to-text.service';
 
 @Component({
   selector: 'app-dart-game-single-out',
@@ -27,15 +28,21 @@ export class DartGameSingleOutComponent implements OnInit {
   public speakToTextEnabled = true;
   public playSoundEnabled = true;
   public animationEnabled = true;
+  public voiceToTextEnabled = true;
   public isSettingsModalOpen = false;
 
   closeModalEvent = new EventEmitter<void>();
   @Input() players: string[] = [];
   @Input() scoreValue = '';
 
-  constructor(private checkoutService: CheckoutService, private textToSpeechService: TextToSpeechService, private soundService: SoundService) { }
+  constructor(private checkoutService: CheckoutService, private textToSpeechService: TextToSpeechService, private soundService: SoundService, private voiceToTextService: VoiceToTextService) { }
 
   ngOnInit(): void {
+
+    if(this.voiceToTextEnabled) {
+      this.voiceToTextService.startListening("Treffer", (transcript: string) => {});
+    }
+
     this.loadSettingsFromLocalStorage();
     this.setupGame();
   }
@@ -345,6 +352,11 @@ export class DartGameSingleOutComponent implements OnInit {
     localStorage.setItem('animationEnabled', String(this.animationEnabled));
   }
 
+  toggleVoiceToTextEnabled(): void {
+    this.voiceToTextEnabled = !this.voiceToTextEnabled;
+    localStorage.setItem('voiceToTextEnabled', String(this.voiceToTextEnabled));
+  }
+
   playSound(path: string, sound: string): void {
     if (this.playSoundEnabled) {
       this.soundService.stopSound();
@@ -413,6 +425,11 @@ export class DartGameSingleOutComponent implements OnInit {
     const animationEnabled = localStorage.getItem('animationEnabled');
     if (animationEnabled !== null) {
       this.animationEnabled = animationEnabled === 'true';
+    }
+
+    const voiceToTextEnabled = localStorage.getItem('voiceToTextEnabled');
+    if (voiceToTextEnabled !== null) {
+      this.voiceToTextEnabled = voiceToTextEnabled === 'true';
     }
   }
 }

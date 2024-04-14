@@ -248,6 +248,25 @@
             </button>
           </div>
           <!-- animation toggle button end -->
+          <!-- voice to text toggle button -->
+
+          <div class="animations">
+            Voice (Beta)
+            <button (click)="toggleVoiceToTextEnabled()">
+              <span *ngIf="voiceToTextEnabled"
+                ><i
+                  class="h-5 w-6 text-black text-center fa-solid fa-toggle-on"
+                ></i
+              ></span>
+
+              <span *ngIf="!voiceToTextEnabled"
+                ><i
+                  class="h-5 w-6 text-black text-center fa-solid fa-toggle-off"
+                ></i
+              ></span>
+            </button>
+          </div>
+          <!-- voice to text toggle button end -->
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ import { DartGameDoubleOutComponent } from './dart-game-double-out/dart-game-dou
 import { TextToSpeechService } from './services/text-to-speech.service';
 import { SoundService } from './services/sound.service';
 import { ChooseSongModalComponent } from './choose-song-modal/choose-song-modal.component';
+import { VoiceToTextService } from './services/voice-to-text.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { ChooseSongModalComponent } from './choose-song-modal/choose-song-modal.
     AppRoutingModule,
     FormsModule,
   ],
-  providers: [TextToSpeechService, SoundService],
+  providers: [TextToSpeechService, VoiceToTextService, SoundService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
