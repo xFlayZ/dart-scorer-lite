@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class VoiceToTextService {
   recognition: any;
+  isRecording: boolean = false;
 
   constructor() {
     // Überprüfen, ob die Web Speech API verfügbar ist
@@ -18,6 +19,7 @@ export class VoiceToTextService {
   }
 
   startListening(codeword: string, callback: (transcript: string) => void): void {
+    this.isRecording = true;
     // Überprüfen, ob die Web Speech API verfügbar ist
     if (this.recognition) {
       try {
@@ -46,6 +48,7 @@ export class VoiceToTextService {
     // Überprüfen, ob die Web Speech API verfügbar ist
     if (this.recognition) {
       this.recognition.stop();
+      this.isRecording = false;
     }
   }
 }

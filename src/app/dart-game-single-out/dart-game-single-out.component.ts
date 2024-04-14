@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, OnInit } from '@angular/core';
 import { CheckoutService } from '../services/checkout.service';
 import { GameData } from '../interfaces/game-data.interface';
 import { shuffleArray } from '../helpers';
@@ -35,25 +35,9 @@ export class DartGameSingleOutComponent implements OnInit {
   @Input() players: string[] = [];
   @Input() scoreValue = '';
 
-  constructor(private checkoutService: CheckoutService, private textToSpeechService: TextToSpeechService, private soundService: SoundService, private voiceToTextService: VoiceToTextService) { }
+  constructor(private checkoutService: CheckoutService, private textToSpeechService: TextToSpeechService, private soundService: SoundService, private voiceToTextService: VoiceToTextService, private ngZone: NgZone) { }
 
   ngOnInit(): void {
-
-    this.voiceToTextService.startListening("", (transcript: string) => {
-      const cleanedTranscript = transcript.trim().toLowerCase();
-      if (cleanedTranscript === "test") {
-        console.log("test wurde erkannt");
-      }
-      if (cleanedTranscript === "treffer t20") {
-        this.onThrownNumberChange("T20")
-      }
-      if (cleanedTranscript === "treffer") {
-        console.log("treffer wurde erkannt");
-      }
-    });
-    
-    
-
     this.loadSettingsFromLocalStorage();
     this.setupGame();
   }
@@ -73,6 +57,7 @@ export class DartGameSingleOutComponent implements OnInit {
         
         if (emptyDartIndex === 2 || currentPlayer.score <= 0) {
           this.inRound = false;
+          this.stopScoreToVoice();
         }
       }
     }
@@ -113,100 +98,107 @@ export class DartGameSingleOutComponent implements OnInit {
     if (this.speakToTextEnabled) {
       this.speakText();
     }
+
+    this.voiceToScore();
   }
 
   nextRound() {
-    const scoreValueNum = parseInt(this.scoreValue, 10);
+    this.ngZone.run(() => {
+      const scoreValueNum = parseInt(this.scoreValue, 10);
 
-    if (this.gameData && this.gameData.length > 0) {
-      const lastPlayer = this.gameData.shift();
+      if (this.gameData && this.gameData.length > 0) {
+        const lastPlayer = this.gameData.shift();
 
-      if (lastPlayer) {
-        this.gameData.push(lastPlayer);
-      }
-
-      this.gameData.forEach(player => {
-        if (player) {
-          player.roundTotal = 0;
-          player.firstDart = '-';
-          player.secondDart = '-';
-          player.thirdDart = '-';
-          player.round = 1;
-          player.roundAverage = 0;
-          player.score = scoreValueNum;
+        if (lastPlayer) {
+          this.gameData.push(lastPlayer);
         }
-      });
 
-      if (this.gameData[0]) {
-        this.gameData[0].game++;
-      }
+        this.gameData.forEach(player => {
+          if (player) {
+            player.roundTotal = 0;
+            player.firstDart = '-';
+            player.secondDart = '-';
+            player.thirdDart = '-';
+            player.round = 1;
+            player.roundAverage = 0;
+            player.score = scoreValueNum;
+          }
+        });
 
-      this.playerCount = this.gameData.length - 1;
-    }
-    this.legEnd = false;
-    localStorage.setItem('gameData', JSON.stringify(this.gameData));
-
-    const currentPlayer = this.gameData[this.currentPlayerCount];
-
-    if (!currentPlayer.isActive) {
-      this.nextPlayer()
-    }
-
-    if (this.speakToTextEnabled && currentPlayer.isActive) {
-      this.speakText();
-    }
-
-    this.lastRoundScore = 0;
-  }
-
-  nextPlayer() {
-    let currentPlayer = this.gameData[this.currentPlayerCount];
-
-    if (currentPlayer.score === 0) {
-      this.winnerModalOpen = true;
-      this.celebrate(500);
-      this.playSound("victory", currentPlayer.winnerSong);
-    } else {
-      if (currentPlayer.score < 0) {
-        this.deleteLastDart();
-        this.deleteLastDart();
-        this.deleteLastDart();
-      }
-      if (this.lastRoundScore > currentPlayer.highestRound) {
-        if (this.lastRoundScore > 180) {
-          currentPlayer.highestRound = 180
-        } else {
-          currentPlayer.highestRound = this.lastRoundScore
+        if (this.gameData[0]) {
+          this.gameData[0].game++;
         }
-      }
-      this.lastRoundScore = 0;
-      currentPlayer.roundAverage = parseFloat((currentPlayer.roundTotal / currentPlayer.round).toFixed(2));
 
-      if (currentPlayer.isActive) {
-        currentPlayer.round += 1;
-        this.previousPlayerCount = this.currentPlayerCount
+        this.playerCount = this.gameData.length - 1;
       }
-      
-      this.currentPlayerCount = (this.playerCount > this.currentPlayerCount) ? this.currentPlayerCount + 1 : 0;
+      this.legEnd = false;
+      localStorage.setItem('gameData', JSON.stringify(this.gameData));
 
-      currentPlayer = this.gameData[this.currentPlayerCount];
+      const currentPlayer = this.gameData[this.currentPlayerCount];
 
       if (!currentPlayer.isActive) {
         this.nextPlayer()
-
       }
 
-      currentPlayer.firstDart = '-';
-      currentPlayer.secondDart = '-';
-      currentPlayer.thirdDart = '-';
+      if (this.speakToTextEnabled && currentPlayer.isActive) {
+        this.speakText();
+      }
 
-    }
-    this.calculateCheckoutCurrentPlayer();
-    if (this.speakToTextEnabled && currentPlayer.isActive) {
-      this.speakText();
-    }
-    this.inRound = true;
-    localStorage.setItem('gameData', JSON.stringify(this.gameData));
+      this.lastRoundScore = 0;
+    });
+  }
+
+  nextPlayer() {
+    this.ngZone.run(() => {
+      let currentPlayer = this.gameData[this.currentPlayerCount];
+
+      if (currentPlayer.score === 0) {
+        this.winnerModalOpen = true;
+        this.celebrate(500);
+        this.playSound("victory", currentPlayer.winnerSong);
+      } else {
+        if (currentPlayer.score < 0) {
+          this.deleteLastDart();
+          this.deleteLastDart();
+          this.deleteLastDart();
+        }
+        if (this.lastRoundScore > currentPlayer.highestRound) {
+          if (this.lastRoundScore > 180) {
+            currentPlayer.highestRound = 180
+          } else {
+            currentPlayer.highestRound = this.lastRoundScore
+          }
+        }
+        this.lastRoundScore = 0;
+        currentPlayer.roundAverage = parseFloat((currentPlayer.roundTotal / currentPlayer.round).toFixed(2));
+
+        if (currentPlayer.isActive) {
+          currentPlayer.round += 1;
+          this.previousPlayerCount = this.currentPlayerCount
+        }
+        
+        this.currentPlayerCount = (this.playerCount > this.currentPlayerCount) ? this.currentPlayerCount + 1 : 0;
+
+        currentPlayer = this.gameData[this.currentPlayerCount];
+
+        if (!currentPlayer.isActive) {
+          this.nextPlayer()
+
+        }
+
+        currentPlayer.firstDart = '-';
+        currentPlayer.secondDart = '-';
+        currentPlayer.thirdDart = '-';
+
+      }
+      this.calculateCheckoutCurrentPlayer();
+      if (this.speakToTextEnabled && currentPlayer.isActive) {
+        this.speakText();
+      }
+      this.inRound = true;
+      localStorage.setItem('gameData', JSON.stringify(this.gameData));
+      this.voiceToScore();
+    });
   }
 
   backToLastPlayer() { 
@@ -365,6 +357,12 @@ export class DartGameSingleOutComponent implements OnInit {
 
   toggleVoiceToTextEnabled(): void {
     this.voiceToTextEnabled = !this.voiceToTextEnabled;
+
+    if (this.voiceToTextEnabled) {
+      this.voiceToScore();
+    } else {
+      this.stopScoreToVoice();
+    }
     localStorage.setItem('voiceToTextEnabled', String(this.voiceToTextEnabled));
   }
 
@@ -376,6 +374,7 @@ export class DartGameSingleOutComponent implements OnInit {
   }
 
   specialThrownSounds(thrownNumber: string) {
+    this.ngZone.run(() => {
     const currentPlayer = this.gameData[this.currentPlayerCount];
     if (currentPlayer.score < 0) {
       this.playSound("special", "fail")
@@ -396,6 +395,7 @@ export class DartGameSingleOutComponent implements OnInit {
         this.playSound("special", "fail")
       }
     }  
+  });
   }
 
   openSettingsModal() {
@@ -421,6 +421,58 @@ export class DartGameSingleOutComponent implements OnInit {
       setTimeout(() => confetti.reset(), duration);
     }
   }
+
+  voiceToScore() {
+    if (this.voiceToTextEnabled) {
+      this.voiceToTextService.startListening("", (transcript: string) => {
+        const cleanedTranscript = transcript.trim().toLowerCase();
+        const words = cleanedTranscript.split(" ");
+        console.log(cleanedTranscript);
+        if (words.length === 2 && words[0] === "treffer") {
+          const thrownNumber = words[1];
+          console.log(thrownNumber.toUpperCase());
+          this.onThrownVoiceNumberChange(thrownNumber.toUpperCase());
+        }
+        if (cleanedTranscript === "nächster spieler") {
+          this.nextPlayer();
+          //this.stopScoreToVoice();
+        }
+        if (cleanedTranscript === "dart löschen") {
+          this.deleteLastDart();
+        }
+      }); 
+    }
+  }
+
+  stopScoreToVoice() {
+    if (this.voiceToTextEnabled) {
+      this.voiceToTextService.stopListening();
+    }
+  }
+
+  onThrownVoiceNumberChange(thrownNumber: string) {
+    this.ngZone.run(() => {
+      const currentPlayer = this.gameData[this.currentPlayerCount];
+      if (this.inRound && !this.legEnd) {
+        const darts = ['firstDart', 'secondDart', 'thirdDart'];
+        const emptyDartIndex = darts.findIndex(dart => currentPlayer[dart] === '-');
+        
+        if (emptyDartIndex !== -1) {
+          this.calcScore(thrownNumber);
+          currentPlayer[darts[emptyDartIndex]] = thrownNumber;
+          this.calculateCheckoutCurrentPlayer();
+  
+          this.specialThrownSounds(thrownNumber);
+          
+          if (emptyDartIndex === 2 || currentPlayer.score <= 0) {
+            this.inRound = false;
+          }
+        }
+      }
+      this.lastThrownNumber = thrownNumber;
+    });
+  }
+  
 
   loadSettingsFromLocalStorage(): void {
     const speakToTextEnabled = localStorage.getItem('speakToTextEnabled');
