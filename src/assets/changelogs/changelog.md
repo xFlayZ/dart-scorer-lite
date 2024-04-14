@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.0] - 2024-04-14
+- Hinzugefügt: Voice to Text Service
+- Hinzugefügt: Innerhalb des Modus "Single Out" ist der Testbetrieb für die "Voice To Score" Funktion gestartert. Diese kann über die Einstellungen aktiviert werden.
+- Änderung: Kleine Änderung innerhalb der "Teilnehmer" Liste (Design Anpassung, Voreinstellungen)
+- Änderung: Die Liste der Songs ist nun pro Seite auf 10 Lieder beschränkt. Insgesamt sind momentan 20 Lieder verfügbar.
+
 ## [1.4.0] - 2024-04-14
 - Hinzugefügt: Am Ende einer Runde wird ein Gewinner-Song abgespielt, dieser kann innerhalb der Voreinstellungen aus einer Liste von Songs vorgehört und ausgewählt werden.
 - Änderung: Der Text der "Score"-Ansage wurde überarbeitet.

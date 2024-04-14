@@ -28,7 +28,7 @@ export class DartGameSingleOutComponent implements OnInit {
   public speakToTextEnabled = true;
   public playSoundEnabled = true;
   public animationEnabled = true;
-  public voiceToTextEnabled = true;
+  public voiceToTextEnabled = false;
   public isSettingsModalOpen = false;
 
   closeModalEvent = new EventEmitter<void>();
@@ -233,6 +233,7 @@ export class DartGameSingleOutComponent implements OnInit {
   }
 
   deleteLastDart() {
+    this.ngZone.run(() => {
     const currentPlayer = this.gameData[this.currentPlayerCount];
     const darts = ['thirdDart', 'secondDart', 'firstDart'];
     const filledDartIndex = darts.findIndex(dart => typeof currentPlayer[dart] === 'string' && currentPlayer[dart] !== '-');
@@ -251,6 +252,7 @@ export class DartGameSingleOutComponent implements OnInit {
     }
     this.inRound = true;
     localStorage.setItem('gameData', JSON.stringify(this.gameData));
+  });
 }
 
 
@@ -367,10 +369,12 @@ export class DartGameSingleOutComponent implements OnInit {
   }
 
   playSound(path: string, sound: string): void {
+    this.ngZone.run(() => {
     if (this.playSoundEnabled) {
       this.soundService.stopSound();
       this.soundService.playSound(`assets/sounds/${path}/${sound}.mp3`);
     }
+  });
   }
 
   specialThrownSounds(thrownNumber: string) {
