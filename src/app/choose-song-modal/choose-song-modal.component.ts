@@ -18,6 +18,11 @@ export class ChooseSongModalComponent {
   players: Player[] = [];
 
   isOpen: boolean = false;
+  isHovered: boolean = false;
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 0;
+  displayedSongs: { name: string; value: string }[] = [];
 
   currentPlayerIndex: number = 0;
 
@@ -33,6 +38,15 @@ export class ChooseSongModalComponent {
     { name: 'So sehen Sieger aus!', value: 'so-sehen-sieger-aus' },
     { name: 'Sweet Victory', value: 'sweet-victory' },
     { name: 'We Are The Champions', value: 'we-are-the-champions' },
+    { name: 'Dreamers', value: 'dreamers' },
+    { name: 'Ein Hoch auf uns', value: 'ein-hoch-auf-uns' },
+    { name: 'Eye of the Tiger (Intro)', value: 'eye-of-the-tiger-intro' },
+    { name: 'Eye of the Tiger 2', value: 'eye-of-the-tiger-second' },
+    { name: 'Final Fantasy Victory', value: 'final-fantasy' },
+    { name: 'Papaoutai', value: 'papaute' },
+    { name: 'Pokemon', value: 'pokemon' },
+    { name: 'Wavin Flag', value: 'wavin-flag' },
+    { name: 'Whenever, Whereever', value: 'whenever-whereever' },
   ];
 
   constructor(private soundService: SoundService) { }
@@ -44,11 +58,15 @@ export class ChooseSongModalComponent {
     }
     this.currentPlayerIndex = index;
     this.isOpen = true;
+
+    this.totalPages = Math.ceil(this.songs.length / this.pageSize);
+    this.updateDisplayedSongs();
   }
   
 
   closeModal(): void {
     this.isOpen = false;
+    this.soundService.stopSound();
   }
 
   selectSong(songValue: string): void {
@@ -66,5 +84,18 @@ export class ChooseSongModalComponent {
   addWinnerSong(index: number, winnerSong: string): void {
     this.players[index].winnerSong = winnerSong;
     localStorage.setItem('players', JSON.stringify(this.players));
+  }
+
+  updateDisplayedSongs() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedSongs = this.songs.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updateDisplayedSongs();
+    }
   }
 }

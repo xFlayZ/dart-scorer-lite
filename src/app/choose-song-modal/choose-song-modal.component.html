@@ -30,18 +30,41 @@
           </button>
         </div>
         <ul class="mt-4">
-          <li
-            *ngFor="let song of songs"
-            class="flex items-center justify-between cursor-pointer mt-4"
-            (click)="selectSong(song.value)"
-          >
-            <span>{{ song.name }}</span>
-            <i
-              class="fa-solid fa-play text-green-800"
-              (click)="playSound($event, song.value)"
-            ></i>
-          </li>
+          <ng-container *ngFor="let song of displayedSongs">
+            <li
+              *ngIf="song"
+              class="flex items-center justify-between cursor-pointer mt-4"
+              (click)="selectSong(song.value)"
+              [ngClass]="{ 'hover:text-blue-700': isHovered }"
+              (mouseenter)="isHovered = true"
+              (mouseleave)="isHovered = false"
+            >
+              <span>{{ song.name }}</span>
+              <i
+                class="fa-solid fa-play text-green-800"
+                (click)="playSound($event, song.value)"
+              ></i>
+            </li>
+          </ng-container>
         </ul>
+        <div class="mt-4 flex justify-end">
+          <button
+            *ngIf="currentPage > 1"
+            class="text-blue-600 hover:text-blue-800 mr-2"
+            [disabled]="currentPage === 1"
+            (click)="goToPage(currentPage - 1)"
+          >
+            Zurück
+          </button>
+          <button
+            *ngIf="totalPages > currentPage"
+            class="text-blue-600 hover:text-blue-800"
+            [disabled]="currentPage === totalPages"
+            (click)="goToPage(currentPage + 1)"
+          >
+            Weiter
+          </button>
+        </div>
       </div>
     </div>
   </div>
