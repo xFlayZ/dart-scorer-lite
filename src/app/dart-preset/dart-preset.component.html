@@ -86,7 +86,7 @@
           />
           <label class="ml-2 cursor-pointer" for="doubleOut">Double Out</label>
         </div>
-        <div class="flex items-center mt-2">
+        <div *ngIf="!isLiteMode" class="flex items-center mt-2">
           <input
             class="form-radio mt-1"
             type="radio"

@@ -38,7 +38,7 @@ export class DartGameAroundTheClockComponent implements OnInit {
     const shuffledPlayers = shuffleArray(this.players);
 
     this.gameData = shuffledPlayers.map(player => ({
-      player: player,
+      player: player.name,
       score: 1,
       wins: 0,
       roundAverage: 0,

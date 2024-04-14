@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.1] - 2024-04-14
+- Hinzugefügt: Erste kleine Variante für "Hide" hinzugefügt.
+- Fix: Kleine Fehler wurden behoben.
+
 ## [1.5.0] - 2024-04-14
 - Hinzugefügt: Voice to Text Service
 - Hinzugefügt: Innerhalb des Modus "Single Out" ist der Testbetrieb für die "Voice To Score" Funktion gestartert. Diese kann über die Einstellungen aktiviert werden.

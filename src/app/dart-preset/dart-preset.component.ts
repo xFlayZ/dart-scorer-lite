@@ -13,6 +13,7 @@ interface Player {
   styleUrl: './dart-preset.component.scss'
 })
 export class DartPresetComponent implements OnInit {
+  isLiteMode: boolean = false;
   players: Player[] = [];
   gameSettings: string[] = [];
   newPlayerName: string = '';
