@@ -335,7 +335,7 @@ export class DartGameDoubleOutComponent implements OnInit {
       possibleCheckoutText = `Möglicher Checkout: ${this.possibleCheckout}`
     }
 
-    let textToSpeak = `Aktueller Spieler: ${currentPlayer.player} Verbleibender Score: ${currentPlayer.score} ${possibleCheckoutText}`;
+    let textToSpeak = `${currentPlayer.player} | Verbleibender Score: ${currentPlayer.score} | ${possibleCheckoutText}`;
 
     if (currentPlayer.score == 0) {
       textToSpeak = `${currentPlayer.player} hat die Runde Gewonnen!`
@@ -372,26 +372,22 @@ export class DartGameDoubleOutComponent implements OnInit {
     if (currentPlayer.score < 0) {
       this.playSound("special", "fail")
     } else {
-    if (this.lastRoundScore == 180 && currentPlayer.thirdDart != "-") {
-      this.playSound("special", "score-180");
-      this.celebrate(500);
-    } else if (this.lastRoundScore >= 100 && currentPlayer.thirdDart != "-") {
-      this.playSound("special", "nice-shot");
-      this.celebrate(125);
-    } else if (this.lastRoundScore == 0 && currentPlayer.thirdDart != "-") {
-      this.playSound("special", "fail")
-    }
-
-      if (thrownNumber == "50") {
+      if (this.lastRoundScore == 180 && currentPlayer.thirdDart != "-") {
+        this.playSound("special", "score-180");
+        this.celebrate(500);
+      } else if (this.lastRoundScore >= 100 && currentPlayer.thirdDart != "-") {
+        this.playSound("special", "nice-shot");
+        this.celebrate(125);
+      } else if (thrownNumber == "50") {
         this.playSound("special", "clap");
         this.celebrate(125);
-      }
-      if (thrownNumber == "T20" && currentPlayer.thirdDart == "-") {
+      } else if (thrownNumber == "T20") {
         this.playSound("special", "clap");
         this.celebrate(125);
+      } else if (this.lastRoundScore == 0 && currentPlayer.thirdDart != "-") {
+        this.playSound("special", "fail")
       }
-    }
-      
+    }  
   }
 
   openSettingsModal() {
